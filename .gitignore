@@ -1,0 +1,15 @@
+.gemini_security/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+.checkpoint.json
+.checkpoint.md
+.checkpoint.lock
+.checkpoint.archive/
+.observer-state.json
+.observer-inject.json
+.state-sentry.log
+.agent.log
+__pycache__/
+*.pyc

@@ -1,0 +1,51 @@
+# Pro example config
+#
+# Use this as a starting point for a full custom runtime. Do not copy it
+# blindly without checking model names, paths, and permissions for your setup.
+
+active_model = "devstral-2"
+system_prompt_id = "main"
+
+skill_paths = ["skills"]
+agent_paths = ["agents"]
+
+enabled_agents = [
+  "watchdog",
+  "state-sentry",
+  "team-dev",
+  "team-ops",
+  "team-verify",
+]
+
+enabled_skills = [
+  "vibe-continuity",
+  "anti-loop-debug",
+  "task-decomposer",
+  "tool-primacy",
+  "context-guardian",
+  "behavior-audit",
+  "pattern-prediction",
+  "verification-master",
+  "overlord",
+]
+
+[subagents]
+enabled = true
+default_model = "pixtral-large-latest"
+max_concurrent = 2
+auto_approve_subagents = true
+
+[tools.bash]
+permission = "always"
+
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+[tools.todo]
+permission = "always"
+
+[tools.task]
+permission = "always"

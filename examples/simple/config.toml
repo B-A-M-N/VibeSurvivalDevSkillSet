@@ -1,0 +1,24 @@
+# Simple example config
+#
+# Use this when you only want a few manual skills and do not want
+# to replace your normal Vibe execution model.
+
+enabled_skills = [
+  "behavior-audit",
+  "anti-loop-debug",
+  "focus-master",
+  "verification-master",
+  "overlord",
+]
+
+[tools.bash]
+permission = "always"
+
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+[tools.todo]
+permission = "always"

@@ -1,0 +1,6 @@
+display_name = "AUDIT-Sentry (Qwen-3.6)"
+name = "team-verify"
+description = "Logic and safety auditor optimized for node .198. Use for code verification."
+agent_type = "subagent"
+auto_approve = true
+model = "Qwen3.6-35b-198"

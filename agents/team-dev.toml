@@ -1,0 +1,6 @@
+display_name = "CODER-REFiner (Qwen-3 Coder)"
+name = "team-dev"
+description = "High-fidelity coding engine optimized for node .89. Use for algorithmic refactoring."
+agent_type = "subagent"
+auto_approve = true
+model = "Qwen3-Coder-89"

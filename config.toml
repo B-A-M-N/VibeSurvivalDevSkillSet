@@ -1,0 +1,147 @@
+# MISTRAL VIBE MASTER CONFIG
+# Version: 3.2.0
+
+active_model = "devstral-2"
+system_prompt_id = "main"
+
+# =============================================================================
+# SKILLS & AGENTS
+# =============================================================================
+
+# Point Vibe at your skills folder
+skill_paths = ["skills"]
+
+# Agent paths - where to look for agent configurations
+agent_paths = ["agents"]
+
+# Enabled agents
+enabled_agents = ["state-sentry", "watchdog"]
+
+# Core utility skills - enabled by default
+enabled_skills = [
+  "vibe-continuity",
+  "anti-loop-debug",
+  "task-decomposer",
+  "tool-primacy",
+  "context-guardian",
+  "behavior-audit",
+  "pattern-prediction",
+]
+
+# Block experimental or untrusted skills
+disabled_skills = ["experimental-*", "re:test-.*"]
+
+# =============================================================================
+# SUBAGENT CONFIGURATION
+# =============================================================================
+
+[subagents]
+enabled = true
+default_model = "pixtral-large-latest"
+max_concurrent = 2
+auto_approve_subagents = true  # Required for non-blocking subagent operation
+poll_interval = 5
+
+# =============================================================================
+# TOOL PERMISSIONS (Always for non-blocking execution)
+# =============================================================================
+
+[tools.bash]
+permission = "always"
+
+[tools.read_file]
+permission = "always"
+
+[tools.write_file]
+permission = "ask"
+
+[tools.search_replace]
+permission = "ask"
+
+[tools.grep]
+permission = "always"
+
+[tools.todo]
+permission = "always"
+
+[tools.task]
+permission = "always"
+
+# =============================================================================
+# CONTEXT COMPACTION OPTIMIZATION
+# =============================================================================
+
+auto_compact_threshold = 204800
+compaction_min_tokens = 50000
+structured_compaction = true
+compaction_detail_level = "medium"
+
+# =============================================================================
+# MODEL DEFINITIONS
+# =============================================================================
+
+[[providers]]
+name = "mistral"
+api_base = "https://api.mistral.ai/v1"
+api_key_env_var = "MISTRAL_API_KEY"
+api_style = "openai"
+backend = "mistral"
+
+[[models]]
+name = "mistral-large-latest"
+provider = "mistral"
+alias = "devstral-2"
+temperature = 0.2
+input_price = 2.0
+output_price = 6.0
+thinking = "off"
+auto_compact_threshold = 204800
+
+[[models]]
+name = "pixtral-large-latest"
+provider = "mistral"
+alias = "pixtral-large-latest"
+temperature = 0.2
+input_price = 0.4
+output_price = 2.0
+thinking = "off"
+auto_compact_threshold = 204800
+
+[[models]]
+name = "devstral-small-latest"
+provider = "mistral"
+alias = "devstral-small-2"
+temperature = 0.2
+input_price = 0.1
+output_price = 0.3
+thinking = "off"
+auto_compact_threshold = 102400
+
+# =============================================================================
+# OTHER SETTINGS
+# =============================================================================
+
+vim_keybindings = false
+autocopy_to_clipboard = true
+enable_telemetry = true
+api_timeout = 720.0
+
+[session_logging]
+save_dir = "/home/bamn/.vibe/logs/session"
+session_prefix = "session"
+enabled = true
+
+[checkpoint]
+enabled = true
+auto_checkpoint_on = [
+  "file_create",
+  "file_modify",
+  "file_delete",
+  "phase_transition",
+  "invariant_write",
+]
+file = ".checkpoint.json"
+mirror_file = ".checkpoint.md"
+lock_file = ".checkpoint.lock"
+archive_dir = ".checkpoint.archive"
+verify_after_write = true

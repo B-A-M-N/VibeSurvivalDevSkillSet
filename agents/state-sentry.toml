@@ -1,0 +1,7 @@
+display_name = "CHRONOS-Sync (State Sentry)"
+name = "state-sentry"
+description = "State reconstruction engine. Restores mental model after context compaction."
+agent_type = "subagent"
+auto_approve = true
+system_prompt_id = "state-sentry"
+model = "Pixtral-Large"

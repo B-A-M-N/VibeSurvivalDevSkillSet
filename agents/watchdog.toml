@@ -1,0 +1,7 @@
+display_name = "GHOST-Protocol (Watchdog)"
+name = "watchdog"
+description = "Passive behavioral monitor. Enforces turn-discipline and protocol alignment."
+agent_type = "subagent"
+auto_approve = true
+system_prompt_id = "watchdog"
+model = "Codestral"

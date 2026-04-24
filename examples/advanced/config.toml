@@ -1,0 +1,35 @@
+# Advanced example config
+#
+# Use this when you want continuity-aware execution with watchdog and
+# state-sentry, but not the full team-agent system.
+
+active_model = "devstral-2"
+system_prompt_id = "main"
+
+skill_paths = ["skills"]
+agent_paths = ["agents"]
+
+enabled_agents = ["watchdog", "state-sentry"]
+enabled_skills = [
+  "vibe-continuity",
+  "anti-loop-debug",
+  "behavior-audit",
+  "pattern-prediction",
+  "verification-master",
+  "focus-master",
+]
+
+[tools.bash]
+permission = "always"
+
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+[tools.todo]
+permission = "always"
+
+[tools.task]
+permission = "always"

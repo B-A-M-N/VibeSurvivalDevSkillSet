@@ -1,0 +1,6 @@
+display_name = "TOOL-Orchestrator (Command-R)"
+name = "team-ops"
+description = "Infrastructure and tool-use specialist optimized for node .89. Use for environment/git ops."
+agent_type = "subagent"
+auto_approve = true
+model = "Command-R-89"
