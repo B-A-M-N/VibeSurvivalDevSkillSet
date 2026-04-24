@@ -1,0 +1,39 @@
+# SpecForge Overseer Agent
+# Phase1-3, Phase7 (Adversarial Review coordination)
+
+[agent]
+name = "specforge-overseer"
+model = "Mistral-Large"
+system_prompt_id = "specforge-overseer"
+skill_files = [
+  "skills/specforge/00-intake-goal-clarification/SKILL.md",
+  "skills/specforge/03-intent-gap-analysis/SKILL.md",
+  "skills/specforge/21-adversarial-spec-review/SKILL.md",
+]
+
+temperature = 0.2
+max_tokens = 32768
+
+[tools]
+[tools.task]
+permission = "always"
+
+[tools.ask_user_question]
+permission = "always"
+
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+disabled_tools = ["write_file", "search_replace", "bash"]
+
+[behavior]
+ambiguity_behavior = "clarify"
+require_intent_clarification = true
+allow_implementation_leakage = false
+
+[logging]
+level = "info"
+log_file = ".specforge-overseer.log"

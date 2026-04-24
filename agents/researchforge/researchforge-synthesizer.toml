@@ -1,0 +1,40 @@
+# ResearchForge Solution Synthesizer + Reviewer
+# solution-synthesizer, research-reviewer
+
+[agent]
+name = "researchforge-synthesizer"
+model = "Mistral-Large"
+system_prompt_id = "researchforge-synthesizer"
+skill_files = [
+  "skills/researchforge/13-solution-option-synthesis/SKILL.md",
+  "skills/researchforge/14-validation-plan-generation/SKILL.md",
+  "skills/researchforge/15-final-research-packet/SKILL.md",
+  "skills/researchforge/16-adversarial-research-review/SKILL.md",
+]
+
+temperature = 0.2
+max_tokens = 49152
+
+[tools]
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+[tools.bash]
+permission = "ask"
+
+[tools.write_file]
+permission = "ask"
+
+disabled_tools = ["ask_user_question"]
+
+[behavior]
+minimum_two_options = true
+reject_if_evidence_weak = true
+no_implementation_changes = true
+
+[logging]
+level = "info"
+log_file = ".researchforge-synthesizer.log"

@@ -1,0 +1,38 @@
+# ResearchForge Evidence Collection Agents
+# evidence-collector, hypothesis-builder, contradiction-hunter
+
+[agent]
+name = "researchforge-evidence"
+model = "Mistral-Large"
+system_prompt_id = "researchforge-evidence"
+skill_files = [
+  "skills/researchforge/02-evidence-collection/SKILL.md",
+  "skills/researchforge/03-source-quality-check/SKILL.md",
+  "skills/researchforge/04-hypothesis-generation/SKILL.md",
+  "skills/researchforge/05-hypothesis-disconfirmation/SKILL.md",
+  "skills/researchforge/12-contradiction-hunt/SKILL.md",
+]
+
+temperature = 0.2
+max_tokens = 32768
+
+[tools]
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+[tools.bash]
+permission = "ask"
+
+disabled_tools = ["write_file", "search_replace", "ask_user_question"]
+
+[behavior]
+collect_evidence_only = true
+explain_causes = false
+hypothesis_requires_disconfirmation = true
+
+[logging]
+level = "info"
+log_file = ".researchforge-evidence.log"

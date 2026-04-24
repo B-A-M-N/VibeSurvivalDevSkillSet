@@ -12,10 +12,22 @@ system_prompt_id = "main"
 skill_paths = ["skills"]
 
 # Agent paths - where to look for agent configurations
-agent_paths = ["agents"]
+agent_paths = ["agents", "agents/specforge", "agents/researchforge"]
 
 # Enabled agents
-enabled_agents = ["state-sentry", "watchdog"]
+enabled_agents = [
+  "state-sentry",
+  "watchdog",
+  # SpecForge pipeline agents
+  "specforge-overseer",
+  "specforge-analyst",
+  "specforge-architect",
+  # ResearchForge pipeline agents
+  "researchforge-overseer",
+  "researchforge-evidence",
+  "researchforge-researcher",
+  "researchforge-synthesizer",
+]
 
 # Core utility skills - enabled by default
 enabled_skills = [
@@ -26,6 +38,48 @@ enabled_skills = [
   "context-guardian",
   "behavior-audit",
   "pattern-prediction",
+  # SpecForge pipeline
+  "specforge-00-intake-goal-clarification",
+  "specforge-01-existing-document-review",
+  "specforge-02-implementation-survey",
+  "specforge-03-intent-gap-analysis",
+  "specforge-04-research-plan-generation",
+  "specforge-05-targeted-domain-research",
+  "specforge-06-requirement-normalization",
+  "specforge-07-authority-boundary-definition",
+  "specforge-08-data-model-specification",
+  "specforge-09-execution-flow-specification",
+  "specforge-10-state-machine-specification",
+  "specforge-11-api-contract-specification",
+  "specforge-12-ui-behavior-specification",
+  "specforge-13-security-permission-specification",
+  "specforge-14-observability-specification",
+  "specforge-15-error-handling-specification",
+  "specforge-16-invariant-generation",
+  "specforge-17-hard-gate-definition",
+  "specforge-18-conflict-resolution-layer",
+  "specforge-19-scenario-matrix-generation",
+  "specforge-20-kill-test-generation",
+  "specforge-21-adversarial-spec-review",
+  "specforge-22-final-spec-assembly",
+  # ResearchForge pipeline
+  "researchforge-00-problem-intake",
+  "researchforge-01-context-map",
+  "researchforge-02-evidence-collection",
+  "researchforge-03-source-quality-check",
+  "researchforge-04-hypothesis-generation",
+  "researchforge-05-hypothesis-disconfirmation",
+  "researchforge-06-targeted-research-plan",
+  "researchforge-07-official-docs-research",
+  "researchforge-08-upstream-issue-research",
+  "researchforge-09-version-compatibility-research",
+  "researchforge-10-architecture-pattern-research",
+  "researchforge-11-risk-research",
+  "researchforge-12-contradiction-hunt",
+  "researchforge-13-solution-option-synthesis",
+  "researchforge-14-validation-plan-generation",
+  "researchforge-15-final-research-packet",
+  "researchforge-16-adversarial-research-review",
 ]
 
 # Block experimental or untrusted skills

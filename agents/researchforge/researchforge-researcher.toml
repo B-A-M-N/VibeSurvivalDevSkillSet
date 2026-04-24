@@ -1,0 +1,38 @@
+# ResearchForge Targeted Researcher Agents
+# targeted-researcher
+
+[agent]
+name = "researchforge-researcher"
+model = "Mistral-Large"
+system_prompt_id = "researchforge-researcher"
+skill_files = [
+  "skills/researchforge/07-official-docs-research/SKILL.md",
+  "skills/researchforge/08-upstream-issue-research/SKILL.md",
+  "skills/researchforge/09-version-compatibility-research/SKILL.md",
+  "skills/researchforge/10-architecture-pattern-research/SKILL.md",
+  "skills/researchforge/11-risk-research/SKILL.md",
+]
+
+temperature = 0.15
+max_tokens = 32768
+
+[tools]
+[tools.bash]
+permission = "always"
+
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+disabled_tools = ["write_file", "search_replace", "ask_user_question"]
+
+[behavior]
+narrow_questions_only = true
+no_broad_research = true
+every_finding_maps_to_spec = true
+
+[logging]
+level = "info"
+log_file = ".researchforge-researcher.log"

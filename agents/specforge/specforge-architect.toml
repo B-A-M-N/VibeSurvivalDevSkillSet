@@ -1,0 +1,53 @@
+# SpecForge Architect Agent
+# spec-architect, scenario-engineer
+
+[agent]
+name = "specforge-architect"
+model = "Mistral-Large"
+system_prompt_id = "specforge-architect"
+skill_files = [
+  "skills/specforge/06-requirement-normalization/SKILL.md",
+  "skills/specforge/07-authority-boundary-definition/SKILL.md",
+  "skills/specforge/08-data-model-specification/SKILL.md",
+  "skills/specforge/09-execution-flow-specification/SKILL.md",
+  "skills/specforge/10-state-machine-specification/SKILL.md",
+  "skills/specforge/11-api-contract-specification/SKILL.md",
+  "skills/specforge/12-ui-behavior-specification/SKILL.md",
+  "skills/specforge/13-security-permission-specification/SKILL.md",
+  "skills/specforge/14-observability-specification/SKILL.md",
+  "skills/specforge/15-error-handling-specification/SKILL.md",
+  "skills/specforge/16-invariant-generation/SKILL.md",
+  "skills/specforge/17-hard-gate-definition/SKILL.md",
+  "skills/specforge/18-conflict-resolution-layer/SKILL.md",
+  "skills/specforge/19-scenario-matrix-generation/SKILL.md",
+  "skills/specforge/20-kill-test-generation/SKILL.md",
+  "skills/specforge/22-final-spec-assembly/SKILL.md",
+]
+
+temperature = 0.15
+max_tokens = 65536
+
+[tools]
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+[tools.bash]
+permission = "ask"
+
+[tools.write_file]
+permission = "ask"
+
+disabled_tools = ["ask_user_question"]
+
+[behavior]
+normative_decisions = true
+intent_is_authoritative = true
+research_is_advisory = true
+implementation_is_evidence = true
+
+[logging]
+level = "info"
+log_file = ".specforge-architect.log"

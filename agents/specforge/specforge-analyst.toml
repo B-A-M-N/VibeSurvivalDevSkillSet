@@ -1,0 +1,36 @@
+# SpecForge Analyst Agents
+# intent-analyst, implementation-surveyor, research-planner
+
+[agent]
+name = "specforge-analyst"
+model = "Mistral-Large"
+system_prompt_id = "specforge-analyst"
+skill_files = [
+  "skills/specforge/01-existing-document-review/SKILL.md",
+  "skills/specforge/02-implementation-survey/SKILL.md",
+  "skills/specforge/04-research-plan-generation/SKILL.md",
+]
+
+temperature = 0.2
+max_tokens = 32768
+
+[tools]
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+[tools.bash]
+permission = "ask"
+
+disabled_tools = ["write_file", "search_replace", "ask_user_question"]
+
+[behavior]
+evidence_only = true
+spec_normative = false
+implementation_is_evidence_only = true
+
+[logging]
+level = "info"
+log_file = ".specforge-analyst.log"
