@@ -222,6 +222,184 @@ The examples directory follows this same path:
 - [advanced](./examples/advanced/README.md)
 - [pro](./examples/pro/README.md)
 
+## Pipeline Tier 4: SpecForge — Specification Factory
+
+Turns vague product intent into enforceable application contracts and scenario sheets, using the Mistral-Vibe AgentLoop + SkillManager architecture.
+
+### How It Maps to Mistral-Vibe
+
+| SpecForge Concept | Mistral-Vibe Component | File |
+|-------------------|--------------------------|------|
+| Skill (phase step) | `SkillManager` → `SKILL.md` | `skills/specforge/NN-*/SKILL.md` |
+| Agent (role) | `AgentManager` → agent `TOML` + prompt | `agents/specforge/*.toml`, `prompts/specforge-*.md` |
+| Overseer (orchestrator) | `AgentLoop.act()` with `MiddlewarePipeline` | `prompts/specforge-overseer.md` |
+| Subagent delegation | `AgentLoop` → `ToolManager.execute()` → `task()` | `config.toml` subagent settings |
+| Orient/Plan/Execute | `MiddlewarePipeline` (Orient) → plan → execute | `vibe/core/middleware.py` |
+| Turn-based execution | `AgentLoop` message loop + event streaming | `vibe/core/agent_loop.py` |
+
+### Architecture Flow
+
+```
+User → AgentLoop.act(prompt)
+         ↓
+    MiddlewarePipeline.before_turn()
+         ↓ (Orient: inject system prompt + skills)
+    LLM stream_completion()
+         ↓ (Plan: skill triggers middleware check)
+    ToolManager.execute() → task() subagent spawn
+         ↓
+    SpecForge skill runs (e.g., specforge-06-requirement-normalization)
+         ↓
+    MessageList updated, next turn or yield AssistantEvent
+```
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a skills/specforge/* ~/.vibe/skills/
+cp -a agents/specforge/* ~/.vibe/agents/
+cp -a prompts/specforge-*.md ~/.vibe/prompts/
+```
+
+Then enable in `~/.vibe/config.toml`:
+
+```toml
+agent_paths = ["agents", "agents/specforge"]
+enabled_agents = [
+  "specforge-overseer",
+  "specforge-analyst",
+  "specforge-architect",
+]
+enabled_skills = [
+  "specforge-00-intake-goal-clarification",
+  # ... through 22-final-spec-assembly
+]
+```
+
+### SpecForge Phases (mapped to Mistral-Vibe execution)
+
+| Phase | Skill(s) | Agent | Execution Model |
+|-------|----------|-------|----------------|
+| 1. Intake | `00-intake-goal-clarification` | `specforge-overseer` | Orient: clarify intent via `ask_user_question` |
+| 2. Evidence Review | `01-existing-document-review`, `02-implementation-survey` | `specforge-analyst` | Subagent spawned via `task()` |
+| 3. Gap Analysis | `03-intent-gap-analysis` | `specforge-overseer` | Execute: compare ledgers |
+| 4. Targeted Research | `04-research-plan-generation`, `05-targeted-domain-research` | `specforge-analyst` | Subagent loop with `bash` |
+| 5. Spec Construction | `06-18` (all spec parts) | `specforge-architect` | Execute: writes `MASTER_SPEC.md` |
+| 6. Scenario Generation | `19-scenario-matrix`, `20-kill-test-generation` | `specforge-architect` | Execute: writes `SCENARIOS.md` |
+| 7. Adversarial Review | `21-adversarial-spec-review` | `specforge-overseer` | Orient: middleware injects review checklist |
+
+### Core Doctrine
+
+```
+Intent is normative.           (user intent drives everything)
+Research is advisory.           (findings inform, don't dictate)
+Implementation is evidence.       (existing code is descriptive, not truth)
+The spec is authoritative.        (only after adversarial review)
+```
+
+### Output Artifacts
+
+- `MASTER_SPEC.md` — 16 PARTs (contract, goals, roles, data models, state machines, API, UI, security, observability, invariants, hard gates, conflict resolution, conformance)
+- `SCENARIOS.md` — exhaustive scenarios: kill tests, happy paths, edge cases, permission failures, API violations, security boundary tests
+- `INTENT_LEDGER.md`, `IMPLEMENTATION_EVIDENCE_MAP.md`, `SPEC_GAP_REPORT.md`, `RESEARCH_FINDINGS.md` — intermediate artifacts
+
+---
+
+## Pipeline Tier 5: ResearchForge — Research-Only Factory
+
+Solves complex issues through disciplined research. Produces a grounded research packet. No code changes. Maps to the same Mistral-Vibe AgentLoop architecture.
+
+### How It Maps to Mistral-Vibe
+
+| ResearchForge Concept | Mistral-Vibe Component | File |
+|------------------------|--------------------------|------|
+| Skill (research step) | `SkillManager` → `SKILL.md` | `skills/researchforge/NN-*/SKILL.md` |
+| Agent (role) | `AgentManager` → agent `TOML` + prompt | `agents/researchforge/*.toml`, `prompts/researchforge-*.md` |
+| Overseer (orchestrator) | `AgentLoop.act()` + `MiddlewarePipeline` | `prompts/researchforge-overseer.md` |
+| Evidence collection | `ToolManager` → `read_file`, `grep`, `bash` | tools section in agent TOML |
+| Hypothesis builder | LLM reasoning via `stream_completion()` | `vibe/core/agent_loop.py` |
+| Targeted researcher | Subagent via `task()` tool | `researchforge-researcher` agent |
+| Final packet assembly | `write_file` (ask permission) | Phase 8 output |
+
+### Architecture Flow
+
+```
+Problem → AgentLoop.act("researchforge-00-problem-intake")
+         ↓
+    MiddlewarePipeline: inject Orient context (OS, git, tools available)
+         ↓
+    LLM: generates PROBLEM_FRAME.md (structured output)
+         ↓
+    Subagent spawn: researchforge-evidence (evidence + hypotheses)
+         ↓
+    Subagent spawn: researchforge-researcher (official docs, upstream issues)
+         ↓
+    Subagent spawn: researchforge-synthesizer (solution options + validation)
+         ↓
+    Adversarial review: REJECT if evidence weak
+         ↓
+    Final packet: FINAL_RESEARCH_PACKET.md
+```
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a skills/researchforge/* ~/.vibe/skills/
+cp -a agents/researchforge/* ~/.vibe/agents/
+cp -a prompts/researchforge-*.md ~/.vibe/prompts/
+```
+
+Then enable in `~/.vibe/config.toml`:
+
+```toml
+agent_paths = ["agents", "agents/specforge", "agents/researchforge"]
+enabled_agents = [
+  "specforge-overseer", "specforge-analyst", "specforge-architect",
+  "researchforge-overseer", "researchforge-evidence",
+  "researchforge-researcher", "researchforge-synthesizer",
+]
+enabled_skills = [
+  # SpecForge (23 skills)
+  "specforge-00-intake-goal-clarification",
+  # ... through 22-final-spec-assembly
+  # ResearchForge (17 skills)
+  "researchforge-00-problem-intake",
+  # ... through 16-adversarial-research-review
+]
+```
+
+### ResearchForge Phases (mapped to Mistral-Vibe execution)
+
+| Phase | Skill(s) | Agent | Execution Model |
+|-------|----------|-------|----------------|
+| 1. Frame Problem | `00-problem-intake`, `01-context-map` | `researchforge-overseer` | Orient: clarify via `ask_user_question` |
+| 2. Evidence Ledger | `02-evidence-collection`, `03-source-quality-check` | `researchforge-evidence` | Subagent: collect + classify |
+| 3. Hypotheses | `04-hypothesis-generation`, `05-hypothesis-disconfirmation` | `researchforge-evidence` | Execute: build + falsify |
+| 4. Targeted Research | `06-targeted-research-plan`, `07-11` (docs, issues, versions, patterns, risks) | `researchforge-researcher` | Subagent loop with `bash` |
+| 5. Contradiction Hunt | `12-contradiction-hunt` | `researchforge-evidence` | Execute: find weaknesses |
+| 6. Solution Options | `13-solution-option-synthesis` | `researchforge-synthesizer` | Execute: synthesize min 2 options |
+| 7. Validation Plan | `14-validation-plan-generation` | `researchforge-synthesizer` | Execute: define proof |
+| 8. Final Packet | `15-final-research-packet` | `researchforge-synthesizer` | Execute: assemble + `write_file` |
+
+### Core Doctrine
+
+```
+Problem first.               (PROBLEM_FRAME.md must be coherent)
+Evidence second.             (collect before hypothesizing)
+Hypotheses third.            (every hypothesis needs disconfirmation criteria)
+Recommendations last.         (no recommendation without evidence)
+No implementation.            (research only, no code changes)
+```
+
+### Output Artifacts
+
+- `FINAL_RESEARCH_PACKET.md` — Problem Frame, Context Map, Evidence Ledger, Hypothesis Matrix, Research Findings, Contradiction Report, Solution Options, Validation Plan, Confidence Assessment
+- `RESEARCH_REVIEW.md` — PASS/REJECT verdict with audit details
+
+---
+
 ## How To Create Your Own Specialized Loop
 
 The clean way to build your own system is:
@@ -234,10 +412,10 @@ The clean way to build your own system is:
 
 Use this rule of thumb:
 
-- prompt = always-on operating doctrine
-- skill = reusable procedure
-- agent TOML = runtime personality/configuration wrapper
-- subagent = specialized delegated worker
+- prompt = always-on operating doctrine (injected by `MiddlewarePipeline` in `vibe/core/middleware.py`)
+- skill = reusable procedure (`SkillManager` parses `SKILL.md` via `parse_skill_command` in `vibe/core/skills/manager.py`)
+- agent TOML = runtime personality/configuration wrapper (`AgentManager` loads from `agents/*.toml`)
+- subagent = specialized delegated worker (`AgentLoop` → `ToolManager.execute()` → `task()` tool)
 
 ### Example: Simple Custom Loop
 
