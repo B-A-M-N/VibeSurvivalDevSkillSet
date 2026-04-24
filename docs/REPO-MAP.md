@@ -36,14 +36,10 @@ These are useful once you already understand the basics.
 - `docs/INJECT-PACKET-SCHEMA.md`
 - `docs/COORDINATION-PROTOCOL.md`
 
-## Historical / Internal Material
+## Internal / Advanced Material
 
-- `archive/`
-  Older or backup material. Not part of the core install path.
-- `conductor/`
-  Supporting material for the broader system. Useful, but not required for initial setup.
-- `docs/architect_brain.md`
-  More internal than beginner-facing. It is not an installed skill and should not be treated as part of the normal setup path.
+The remaining `docs/` files are mostly reference material rather than installation steps.
+Use them when you want the deeper protocol and architecture details, not when you are just trying to get the system running for the first time.
 
 ## Files Most People Actually Need
 

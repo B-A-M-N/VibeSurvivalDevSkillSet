@@ -291,7 +291,6 @@ This repo is meant to make that model visible and reusable.
 ## Practical Notes
 
 - `~/.vibe/AGENTS.md` is optional. Many advanced behaviors can live entirely in prompts, skills, and agent TOMLs.
-- `docs/architect_brain.md` is internal reference material, not an installed skill.
 - The continuity system here is opinionated. You should trim it if it is too strict for your workflow.
 - Do not publish secrets, API keys, logs, checkpoints, or local databases with your skill repo.
 - If you fork this into your own system, rename the agents, prompts, and skills to reflect your actual operating model instead of leaving them as cargo-cult artifacts.

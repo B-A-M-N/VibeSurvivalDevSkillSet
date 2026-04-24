@@ -6,9 +6,9 @@ This file exists so people looking at the repo can separate the install surface 
 
 These items are useful context, but they are not required for someone just trying to use the skill system:
 
-- `docs/architect_brain.md`
-- `archive/`
-- `conductor/`
+- most of the deeper protocol docs under `docs/`
+- the observer and continuity reference material
+- the schema and migration notes
 
 ## Why This Matters
 
