@@ -14,6 +14,7 @@ A practical survival kit for understanding, extending, and actually using Mistra
 - [Start Here](#start-here)
 - [What This Repo Contains](#what-this-repo-contains)
 - [The Important Mental Model](#the-important-mental-model)
+- [Why People Overlook Mistral-Vibe](#why-people-overlook-mistral-vibe)
 - [How Vibe Finds This Stuff](#how-vibe-finds-this-stuff)
 - [Setup Tiers](#setup-tier1-simple)
   - [Tier 1: Simple](#setup-tier1-simple)
@@ -120,6 +121,108 @@ If you want:
 - only better commands and workflows: install skills
 - better continuity and compaction recovery: install skills + prompts + custom agents
 - orchestrated teams and specialized loops: install the whole system
+
+## Why People Overlook Mistral-Vibe
+
+Most people overlook Vibe not because it's weak, but because using it well requires **mental model shifts** that clash with how they think about AI coding assistants.
+
+You don't realize these shifts are needed until you've already built something on top of Vibe — and then they become obvious all at once.
+
+---
+
+### The 10 Non-Obvious Truths
+
+**1. The agent is not the system — the loop is**
+
+People think: `agent = intelligence`. Reality: `AgentLoop = system`. Behavior doesn't live in the agent. It emerges from the loop + constraints.
+
+> Once you see this, you stop trying to "fix the agent" and start shaping the loop.
+
+**2. Tools are the real execution engine**
+
+The model never actually does anything. Tools do everything. Model = planner. Tools = executor. AgentLoop = bridge.
+
+> If you control tools (and tool access), you control behavior more reliably than prompt engineering.
+
+**3. Subagents are just tools with memory**
+
+`task()` spawns another AgentLoop. Subagents = nested loops, not magical second brains.
+
+> Multi-agent systems in Vibe are just composed loops. You don't need a new architecture — you compose loops.
+
+**4. Middleware is the only enforcement layer**
+
+Prompts advise. Skills suggest. Middleware enforces. Nothing else in Vibe can reliably block, modify, or audit behavior.
+
+> Middleware is the only place you can guarantee outcomes. Everything else is advisory.
+
+**5. State is leverage, not memory**
+
+State only matters if something uses it to change behavior. Raw state = logs. State + middleware = leverage.
+
+> Recent commands → drift detection. Files modified → verification gating. Errors → retry logic.
+
+**6. Skills are triggers, not behavior**
+
+In Vibe: `skill = structured prompt + activation condition`. Skills shape what the model *tries* to do. They don't enforce outcomes.
+
+> Skills shape intent. Middleware enforces outcome. That distinction changes how you architect systems.
+
+**7. Runtime topology is the real abstraction**
+
+"Installing a skill system" is really "installing a runtime topology." Behavior = arrangement of loop + middleware + tools + agents + prompts.
+
+> You don't build features — you assemble systems.
+
+**8. There are two kinds of intelligence**
+
+1. Execution intelligence (main agent, worker agents)
+2. Governance intelligence (middleware + control agents)
+
+Most people only think about (1). Your repo introduces (2): watchdog, state-sentry, overlord.
+
+> You can separate "doing the work" from "deciding if the work is acceptable."
+
+**9. The system is only as strong as its contracts**
+
+Everything works because of stable contracts:
+
+```
+tool.execute(name, args) → result
+middleware.on_* → decision
+agent_loop → propose/execute cycle
+```
+
+Swap anything. Everything composes. Break the contracts, everything becomes fragile.
+
+> Modularity comes from stable boundaries, not flexibility.
+
+**10. You can control behavior without touching the model**
+
+With this repo's approach:
+
+- You didn't change the model
+- You didn't fine-tune anything
+- You didn't rewrite Vibe
+
+But you changed behavior dramatically.
+
+> You can build reliable systems *around* unreliable models. That's the whole point of the control-plane pattern.
+
+---
+
+### The Meta Insight
+
+All 10 shifts collapse into one:
+
+```
+Mistral Vibe is not an AI system.
+It is a control system that happens to use an AI model.
+```
+
+Most people are looking for "a better AI assistant." Vibe is actually "a moddable agent runtime with an AI frontend." Until you make that shift, the architecture won't click.
+
+---
 
 ## How Vibe Finds This Stuff
 
