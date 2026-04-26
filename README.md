@@ -27,7 +27,9 @@ A practical survival kit for understanding, extending, and actually using Mistra
 - [How To Create Your Own Specialized Loop](#how-to-create-your-own-specialized-loop)
 - [Practical Notes](#practical-notes)
 - [Suggested First Things To Read](#suggested-first-things-to-read)
-- [Minimal Publish Checklist](#minimal-publish-checklist)
+
+
+---
 
 ## What This Repo Is
 
@@ -846,16 +848,3 @@ Shape:
 - [docs/EXECUTION-AND-DRIFT.md](./docs/EXECUTION-AND-DRIFT.md)
 - [docs/USER_GUIDE.md](./docs/USER_GUIDE.md)
 - [skills/mistral-vibe-compaction-skill/SKILL.md](./skills/mistral-vibe-compaction-skill/SKILL.md)
-
-## Minimal Publish Checklist
-
-Before pushing this repo to GitHub:
-
-- review `config.toml` for machine-specific paths or private values
-- make sure `.gemini_security/`, logs, and databases are ignored
-- verify your prompts do not contain secrets or personal identifiers
-- decide whether you want this repo to represent:
-  - the exact system you run
-  - a cleaned-up template others can adopt
-
-If you want a portable public version, prefer the second option.
