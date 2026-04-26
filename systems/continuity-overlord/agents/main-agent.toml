@@ -1,0 +1,53 @@
+# Agent Configuration: Supportive Continuity System
+# Version: 3.1.0
+
+[agent]
+name = "continuation-main"
+model = "Mistral-Large"
+system_prompt_id = "main"
+skill_files = [
+  "skills/vibe-continuity/SKILL.md"
+]
+
+# Temperature 0.2 allows for better reasoning recovery while maintaining stability.
+temperature = 0.2
+
+# Context window — optimized for Mistral Vibe 2.0 (Devstral-2)
+max_tokens = 204800
+context_compaction_threshold = 0.8
+
+[watchdog_agent]
+name = "watchdog"
+model = "Mistral-Large"
+system_prompt_id = "watchdog"
+temperature = 0
+max_tokens = 4096
+
+[state_sentry_agent]
+name = "state-sentry"
+model = "Mistral-Large"
+system_prompt_id = "state-sentry"
+temperature = 0
+max_tokens = 16384
+
+[tools]
+[tools.file_system]
+enabled = true
+read = true
+write = true
+delete = true
+
+[tools.shell]
+enabled = true
+allow_network = true
+
+[behavior]
+suppress_cold_start_analysis = true
+require_checkpoint_read_on_start = true
+ambiguity_behavior = "clarify"
+
+[logging]
+level = "info"
+log_file = ".agent.log"
+log_compaction_events = true
+log_checkpoint_writes = true

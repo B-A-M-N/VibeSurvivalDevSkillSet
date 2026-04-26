@@ -1,0 +1,30 @@
+name = "overlord"
+display_name = "OVERLORD (Supreme Orchestrator)"
+description = "Supreme orchestrator for the Distributed Team Harness. Manages skill activation, resolves cross-agent conflicts, and selects optimal Sub-Team for specialized tasks."
+agent_type = "subagent"
+auto_approve = true
+system_prompt_id = "overlord"
+model = "Mistral-Large"
+temperature = 0.1
+max_tokens = 16384
+
+[tools]
+[tools.Read]
+permission = "always"
+
+[tools.Grep]
+permission = "always"
+
+[tools.Bash]
+permission = "ask"
+
+[tools.Write]
+permission = "ask"
+
+[tools.Agent]
+permission = "always"
+
+[behavior]
+auto_continue = true
+max_iterations = 50
+require_user_confirmation = false
