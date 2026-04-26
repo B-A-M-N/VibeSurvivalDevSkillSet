@@ -400,6 +400,136 @@ No implementation.            (research only, no code changes)
 
 ---
 
+## Pipeline Tier 6: SkillForge — Interactive Skill/Agent/Loop Factory
+
+Interactive assistant for creating, debugging, and installing mistral-vibe skills, agents, loops, and workflows. Uses runtime activation with hard gating and transactional staging.
+
+### How It Maps to Mistral-Vibe
+
+| SkillForge Concept | Mistral-Vibe Component | File |
+|---------------------|--------------------------|------|
+| Skill (entry point) | `SkillManager` → `SKILL.md` with `activation.type: runtime` | `skills/skill-forge/SKILL.md` |
+| Agent (forge loop) | `AgentManager` → agent `TOML` + prompt | `agents/skill-forge-agent.toml`, `prompts/skill-forge-system.md` |
+| Middleware (hard gating) | `MiddlewarePipeline` → custom middleware | `skills/skill-forge/middleware.py:SkillForgeMiddleware` |
+| Runtime switch | `AgentLoop` entrypoint/exitpoint hooks | `skills/skill-forge/agent_loop.py` |
+| Staging | Transactional file staging before install | `~/.vibe/skill-forge-state/staging/<session_id>/` |
+| State snapshot | Pre/post runtime state persistence | `~/.vibe/skill-forge-state/current_session.json` |
+
+### Architecture Flow
+
+```
+User: /skill-forge
+         ↓
+    SkillManager.intercept() → activation.type = "runtime"
+         ↓
+    enter_skill_forge()
+         ↓
+    Snapshot current runtime (middleware stack, agent profile, config)
+         ↓
+    Clear middleware pipeline (save live objects for same-process restore)
+         ↓
+    Inject SkillForgeMiddleware (hard gating)
+         ↓
+    Switch to skill-forge-agent profile
+         ↓
+    ┌─────────────────────────────────────┐
+    │  Controlled Loop (SkillForgeMiddleware enforces gating):  │
+    │     Phase1: Goal Elicitation         │
+    │     Phase2: Requirements Gathering  │
+    │     Phase3: Construction (staged)   │
+    │     Phase4: Functional Verification  │
+    │     Phase5: Install / Validate      │
+    └─────────────────────────────────────┘
+         ↓
+    exit_skill_forge()
+         ↓
+    Commit OR Discard staged artifacts
+         ↓
+    Restore middleware stack (live objects)
+         ↓
+    Restore agent profile
+```
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a skills/skill-forge ~/.vibe/skills/
+cp -a agents/skill-forge-agent.toml ~/.vibe/agents/
+cp -a prompts/skill-forge-system.md ~/.vibe/prompts/
+```
+
+Then enable in `~/.vibe/config.toml`:
+
+```toml
+agent_paths = ["agents", "agents/specforge", "agents/researchforge"]
+enabled_agents = [
+  "specforge-overseer", "specforge-analyst", "specforge-architect",
+  "researchforge-overseer", "researchforge-evidence",
+  "researchforge-researcher", "researchforge-synthesizer",
+  "skill-forge-agent",
+]
+enabled_skills = [
+  # SpecForge (23 skills)
+  "specforge-00-intake-goal-clarification",
+  # ... through 22-final-spec-assembly
+  # ResearchForge (17 skills)
+  "researchforge-00-problem-intake",
+  # ... through 16-adversarial-research-review
+  # SkillForge
+  "skill-forge",
+]
+```
+
+### SkillForge Phases (interactive, hard-gated)
+
+| Phase | Action | Agent | Gating |
+|-------|--------|-------|--------|
+| 1. Goal Elicitation | Create new component vs. debug existing | `skill-forge-agent` | `AskUserQuestion` required |
+| 2. Requirements Gathering | Elicit names, tools, configs, validate | `skill-forge-agent` | Confirmation required |
+| 3. Construction | Create files in staging (not live paths) | `skill-forge-agent` | Confirmation required |
+| 4. Functional Verification | Discovery, invocation, agent, integration tests | `skill-forge-agent` | Confirmation required |
+| 5. Install/Validate | Run validation pipeline, prompt user for action | `skill-forge-agent` | Apply/Save/Discard/Continue |
+
+### Exit Actions
+
+| User Choice | Behavior |
+|-------------|----------|
+| **Apply** | Commit staged artifacts to live paths, restore previous runtime |
+| **Save only** | Keep in `saved/<label>/` for later reuse, stay in forge or exit |
+| **Discard** | Save to `saved/discarded-<id>/` for refinement, restore previous runtime |
+| **Continue** | Return to Phase 1 with a new goal |
+
+### Core Doctrine
+
+```
+Runtime activation.         (intercepted before normal skill execution)
+Hard gating.                (middleware blocks turns until user confirms)
+Transactional staging.       (nothing touches live paths until Apply)
+Stateful restore.            (exact middleware + agent + config reconstruction)
+Discarded work is preserved. (nothing is deleted, everything is saved)
+```
+
+### Output Artifacts
+
+- Staged components in `~/.vibe/skill-forge-state/staging/<session_id>/`
+- Saved/reusable components in `~/.vibe/skill-forge-state/saved/<label>/`
+- Runtime snapshot in `~/.vibe/skill-forge-state/current_session.json`
+- On Apply: live installation into `~/.vibe/skills/`, `~/.vibe/agents/`, `~/.vibe/prompts/`
+
+### Generalized Pattern
+
+SkillForge implements a reusable pattern for runtime-activated skills:
+
+1. **Snapshot** — save current runtime state (middleware, agent, config)
+2. **Swap** — inject custom middleware + switch agent profile
+3. **Execute** — run controlled loop with hard gating
+4. **Restore** — deterministically reconstruct previous runtime
+
+Any skill can adopt this pattern by setting `activation.type: runtime` and providing `entrypoint`/`exitpoint` hooks.
+
+---
+
 ## How To Create Your Own Specialized Loop
 
 The clean way to build your own system is:
