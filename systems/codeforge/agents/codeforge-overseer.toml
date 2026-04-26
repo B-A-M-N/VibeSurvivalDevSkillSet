@@ -1,0 +1,22 @@
+name = "codeforge-overseer"
+model = "devstral-2"
+system_prompt = "codeforge-overseer"
+
+[tools]
+bash = "always"
+read_file = "always"
+write_file = "ask"
+search_replace = "ask"
+grep = "always"
+task = "always"
+ask_user_question = "always"
+
+[behavior]
+temperature = 0.2
+max_turns = 80
+checkpoint_frequency = 3
+
+[orchestration]
+delegates_to = ["codeforge-implementer", "codeforge-validator"]
+plan_before_execute = true
+invariant_check = true
