@@ -5,9 +5,9 @@ description: |
   research queue with one focused question per unknown.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - bash
-  - grep
+  - Read
+  - Bash
+  - Grep
 ---
 
 # SpecForge: Research Plan Generation

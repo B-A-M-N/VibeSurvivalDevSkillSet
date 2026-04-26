@@ -1,14 +1,15 @@
 ---
 name: behavior-audit
 description: |
+trigger: periodically or after major changes
   Retrospectively audits session history for behavioral anti-patterns (Re-Analysis Trap, Phantom Writes).
   Use this if you feel you are drifting or stuck in a loop.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - bash
-  - grep
-  - todo
+  - Read
+  - Bash
+  - Grep
+  - TaskCreate
 ---
 
 # Behavior Audit

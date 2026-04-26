@@ -1,0 +1,19 @@
+[agent]
+name = "docforge-overseer"
+model = "hy3"
+max_turns = 50
+role = "Orchestrator"
+
+[dependencies]
+agents = ["docforge-apidoc", "docforge-diagrams"]
+
+[capabilities]
+planning = true
+delegation = true
+gating = true
+logging = true
+
+[settings]
+output_dir = "docs"
+phase_timeout = 300
+recheck_enabled = true

@@ -5,11 +5,11 @@ description: |
   success criteria, and scope before any research begins.
 user-invocable: true
 allowed-tools:
-  - task
-  - ask_user_question
-  - read_file
-  - grep
-  - bash
+  - Agent
+  - AskUserQuestion
+  - Read
+  - Grep
+  - Bash
 ---
 
 # ResearchForge: Problem Intake

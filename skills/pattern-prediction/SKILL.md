@@ -1,14 +1,15 @@
 ---
 name: pattern-prediction
 description: |
+trigger: based on code patterns
   Predicts failure points in the current plan by analyzing the .todo list 
   for compound language and vague outcomes.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - bash
-  - grep
-  - todo
+  - Read
+  - Bash
+  - Grep
+  - TaskCreate
 ---
 
 # Pattern Prediction

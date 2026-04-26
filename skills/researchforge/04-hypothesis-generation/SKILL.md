@@ -5,9 +5,9 @@ description: |
   from evidence, with disconfirmation criteria for each.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # ResearchForge: Hypothesis Generation

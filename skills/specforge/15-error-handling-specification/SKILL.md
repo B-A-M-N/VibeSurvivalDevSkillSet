@@ -5,9 +5,9 @@ description: |
   recovery strategies, user-facing messages, and retry/backoff policies.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Error Handling Specification

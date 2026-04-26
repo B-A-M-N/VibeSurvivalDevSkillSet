@@ -13,5 +13,4 @@ task = "always"
 [behavior]
 temperature = 0.2
 max_turns = 40
-invariant_check = true
 report_only = true

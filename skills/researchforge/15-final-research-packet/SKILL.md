@@ -5,10 +5,10 @@ description: |
   into a structured packet for use by implementation/spec agents.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - write_file
+  - Read
+  - Grep
+  - Bash
+  - Write
 ---
 
 # ResearchForge: Final Research Packet

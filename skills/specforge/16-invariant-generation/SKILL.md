@@ -5,9 +5,9 @@ description: |
   that must hold true across all operations and state transitions.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Invariant Generation

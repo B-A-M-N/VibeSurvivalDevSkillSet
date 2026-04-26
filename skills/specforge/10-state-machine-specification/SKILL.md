@@ -5,9 +5,9 @@ description: |
   with states, transitions, guards, and side effects.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: State Machine Specification

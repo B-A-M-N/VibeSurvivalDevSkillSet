@@ -5,10 +5,10 @@ description: |
   for contradictions, gaps, untestable rules, and implementation leakage.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - ask_user_question
+  - Read
+  - Grep
+  - Bash
+  - AskUserQuestion
 ---
 
 # SpecForge: Adversarial Spec Review

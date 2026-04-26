@@ -1,0 +1,8 @@
+[agent]
+name = "debugforge-overseer"
+model = "opus"
+max_turns = 60
+description = "Orchestrator, manages bug lifecycle, gates on reproduction, validates fixes"
+tools = ["bash", "file_operations", "text_analysis"]
+role = "coordinator"
+collaboration = ["debugforge-reproducer", "debugforge-fixer"]

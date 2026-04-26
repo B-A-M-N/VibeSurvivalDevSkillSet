@@ -5,9 +5,9 @@ description: |
   for staleness, authority, and contradictions.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # ResearchForge: Source Quality Check

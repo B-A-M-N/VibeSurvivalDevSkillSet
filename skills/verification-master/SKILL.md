@@ -1,14 +1,15 @@
 ---
 name: verification-master
 description: |
+trigger: during verification phases
   Enforces evidence-based engineering. Ensures every state change 
   (write/run/delete) is verified via tool output (ls, grep, cat).
 user-invocable: true
 allowed-tools:
-  - read_file
-  - bash
-  - grep
-  - todo
+  - Read
+  - Bash
+  - Grep
+  - TaskCreate
 ---
 
 # Verification Master

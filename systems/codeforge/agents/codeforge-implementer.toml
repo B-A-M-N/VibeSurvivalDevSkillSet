@@ -13,5 +13,4 @@ task = "always"
 [behavior]
 temperature = 0.1
 max_turns = 60
-follow_existing_patterns = true
 invariant_check = true

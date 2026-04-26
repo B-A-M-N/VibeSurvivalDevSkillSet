@@ -5,9 +5,9 @@ description: |
   what metrics are collected, tracing strategy, and alerting thresholds.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Observability Specification

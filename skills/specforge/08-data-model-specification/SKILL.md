@@ -5,9 +5,9 @@ description: |
   types, relationships, constraints, and persistence rules.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Data Model Specification

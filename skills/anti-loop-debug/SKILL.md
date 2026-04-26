@@ -1,29 +1,28 @@
 ---
 name: anti-loop-debug
-description: |
-  Analyzes repeating failure patterns and provides a way out of loops.
-  Use this when you've hit the retry limit or are oscillating between actions.
-user-invocable: true
-allowed-tools:
-  - read_file
-  - todo
-  - bash
-  - grep
+description: Analyzes repeating failure patterns and provides a way out of loops
+trigger: when loop detection is needed
 ---
 
 # Anti-Loop Debug
 
-This skill provides a structured way to break out of execution loops and repeating failures.
+## Step-by-Step Instructions
 
-## When to Use
-- After 3 consecutive failed attempts on the same target.
-- If you are stuck in an "A -> B -> A" oscillation.
-- If an error message repeats 2+ times.
+1. **Detect Loops**
+   - Monitor for repeating failure patterns
+   - Track consecutive failures
+   - Identify oscillation between actions
 
-## Instructions
-1. **Analyze Failure**: Review `failed_paths[]` in `.checkpoint.json` and recent tool output to identify the root cause (e.g., Permissions, Missing Dependency).
-2. **Commit to Third Path**: Propose a recovery strategy that is fundamentally different from the previous two failed attempts.
-3. **Blacklist Failure**: Update `.checkpoint.json` with `do_not_retry: true` for the failed paths.
-4. **Pivot**: Set the new `next_step` to the new approach and execute.
+2. **Analyze Patterns**
+   - Review error logs and stack traces
+   - Identify root cause of repeated failures
+   - Determine if failures are related
 
-**Insanity is doing the same thing twice. Break the loop.**
+3. **Break the Loop**
+   - Implement circuit breaker pattern
+   - Add exponential backoff
+   - Provide escape hatch for stuck states
+
+4. **Output Results**
+   - Log loop detection and resolution
+   - Generate diagnostic report

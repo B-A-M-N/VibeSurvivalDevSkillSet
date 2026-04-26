@@ -5,9 +5,9 @@ description: |
   and implementation evidence into normalized, testable requirements.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Requirement Normalization

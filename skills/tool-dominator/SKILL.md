@@ -1,16 +1,17 @@
 ---
 name: tool-dominator
 description: |
+trigger: when managing tools
   Aggressively enforces tool usage. No verbal descriptions, no permission 
   requests, only immediate tool execution.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - write_file
-  - bash
-  - grep
-  - todo
-  - task
+  - Read
+  - Write
+  - Bash
+  - Grep
+  - TaskCreate
+  - Agent
 ---
 
 # Tool Dominator

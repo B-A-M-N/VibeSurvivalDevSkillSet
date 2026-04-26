@@ -1,12 +1,13 @@
 ---
 name: focus-guard
 description: |
+trigger: during deep work sessions
   Prevents the "Re-Analysis Trap". Ensures you maintain focus on the 
   current step without re-examining completed work or re-planning.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - todo
+  - Read
+  - TaskCreate
 ---
 
 # Focus Guard

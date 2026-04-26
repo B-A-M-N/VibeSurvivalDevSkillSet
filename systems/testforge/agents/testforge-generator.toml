@@ -1,0 +1,16 @@
+name = "testforge-generator"
+model = "devstral-2"
+system_prompt = "testforge-generator"
+
+[tools]
+bash = "always"
+read_file = "always"
+write_file = "always"
+search_replace = "always"
+grep = "always"
+task = "always"
+
+[behavior]
+temperature = 0.1
+max_turns = 80
+follow_spec = true

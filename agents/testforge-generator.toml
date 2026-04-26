@@ -1,0 +1,6 @@
+[agent]
+name = "testforge-generator"
+model = "devstral-2"
+max_turns = 80
+tools = { write_file = "always" }
+role = "Test writer — generates unit, integration, kill, and fuzz tests"

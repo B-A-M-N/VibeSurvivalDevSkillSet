@@ -1,53 +1,43 @@
 ---
 name: spec-ingest
-description: Parse MASTER_SPEC.md, extract contracts, data models, API specs, state machines, invariants, hard gates
-trigger: parse master specification and extract all technical requirements
+description: Parses MASTER_SPEC.md to extract contracts, data models, API specs, state machines, invariants, and hard gates.
 ---
 
-## Step-by-Step Instructions
+## Steps to Read and Parse MASTER_SPEC.md
 
-### 1. Read MASTER_SPEC.md Completely
-- Load and read the entire MASTER_SPEC.md file
-- Identify the document structure and sections
-- Note the file encoding and formatting
+1. **Locate the Master Spec**: Find `MASTER_SPEC.md` at the repository root or in the `specs/` directory.
+2. **Load and Validate**: Ensure the file exists and is well-formed YAML/Markdown with clear section delimiters.
+3. **Extract Contracts**: Identify all top-level contract definitions, including service boundaries, data ownership, and SLA requirements.
+4. **Extract Data Models**: Parse type definitions, field constraints, default values, and relationships (one-to-one, one-to-many, references).
+5. **Extract API Specifications**: Document endpoints, HTTP methods, request/response schemas, authentication schemes, and rate limits.
+6. **Extract State Machines**: Map states, transitions, triggers, and guards for each entity or workflow.
+7. **Extract Invariants**: List rules that must hold true globally (e.g., "balance >= 0", "unique email per user").
+8. **Extract Hard Gates**: Identify non-negotiable constraints (e.g., "GDPR compliance required", "encryption at rest mandatory").
+9. **Normalize and Reference**: Assign unique IDs to each extracted element for cross-referencing.
+10. **Generate SPEC_SUMMARY.md**: Produce a structured summary with sections for contracts, models, APIs, state machines, invariants, and hard gates.
 
-### 2. Extract Contracts
-- Find all service contracts and agreements
-- Document contract parties, terms, and obligations
-- Identify any API-level contracts or SLAs
+## Output Specification
 
-### 3. Extract Data Models
-- Identify all data structures and schemas
-- Document fields, types, constraints, and relationships
-- Note required vs optional fields
-- Extract validation rules
+The output `SPEC_SUMMARY.md` should contain:
+- A table of contents for quick navigation.
+- A `## Contracts` section summarizing each contract with key fields.
+- A `## Data Models` section with schema definitions and constraints.
+- A `## API Specifications` section detailing endpoints and contracts.
+- A `## State Machines` section visualizing or tabulating state transitions.
+- A `## Invariants` section listing all global invariants with references.
+- A `## Hard Gates` section outlining mandatory constraints and compliance requirements.
 
-### 4. Extract API Specifications
-- Document all API endpoints, methods, and parameters
-- Extract request/response schemas
-- Note authentication and authorization requirements
-- Document rate limits and quotas
+## Best Practices
 
-### 5. Identify State Machines
-- Find all stateful processes and workflows
-- Document states, transitions, and triggers
-- Note business rules governing transitions
-- Identify initial and terminal states
+- Use consistent identifiers (e.g., `SPEC-001`, `MODEL-002`).
+- Include line references from the original MASTER_SPEC.md for traceability.
+- Keep summaries concise but complete; link to detailed sections.
+- Validate extracted invariants against the original spec to avoid omissions.
+- Update SPEC_SUMMARY.md whenever MASTER_SPEC.md changes.
 
-### 6. Extract Invariants
-- Identify constraints that must always hold
-- Document business rules and validation requirements
-- Note cross-field and cross-entity constraints
-- Extract timing and sequencing requirements
+## Tooling Notes
 
-### 7. Identify Hard Gates
-- Find critical milestones and deadlines
-- Document blocking dependencies
-- Identify integration points with external systems
-- Note regulatory or compliance requirements
-
-### 8. Output Structured Data
-- Create structured representation of all extracted information
-- Use consistent naming and categorization
-- Ensure no information loss during extraction
-- Prepare for downstream processing by other agents
+- Prefer structured parsing (YAML frontmatter or marked sections) over regex.
+- Support incremental updates by tracking last parsed position or hash.
+- Log parsing errors with line numbers for easy debugging.
+- Ensure backward compatibility with older spec versions where possible.

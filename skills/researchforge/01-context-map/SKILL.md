@@ -5,10 +5,10 @@ description: |
   and dependencies relevant to the problem space.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - task
+  - Read
+  - Grep
+  - Bash
+  - Agent
 ---
 
 # ResearchForge: Context Map

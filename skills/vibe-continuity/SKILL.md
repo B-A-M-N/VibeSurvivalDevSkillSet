@@ -1,15 +1,16 @@
 ---
 name: vibe-continuity
 description: |
+trigger: for ongoing continuity checks
   Restores agent state after context compaction or session resume. 
   Invokes State Sentry subagent to verify file artifacts and rebuild mental model.
 user-invocable: true
 allowed-tools:
-  - task
-  - read_file
-  - todo
-  - bash
-  - grep
+  - Agent
+  - Read
+  - TaskCreate
+  - Bash
+  - Grep
 ---
 
 # Vibe Continuity

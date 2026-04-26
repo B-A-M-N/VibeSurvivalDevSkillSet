@@ -1,14 +1,15 @@
 ---
 name: test-runner
 description: |
+trigger: on test execution requests
   Automates test discovery, execution, and analysis. Ensures all changes 
   are verified before being marked as complete.
 user-invocable: true
 allowed-tools:
-  - bash
-  - read_file
-  - grep
-  - todo
+  - Bash
+  - Read
+  - Grep
+  - TaskCreate
 ---
 
 # Test Runner

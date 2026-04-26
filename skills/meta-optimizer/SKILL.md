@@ -1,14 +1,15 @@
 ---
 name: meta-optimizer
 description: |
+trigger: periodically or on performance issues
   Optimizes tool usage and decision-making for maximum efficiency. 
   Enforces batching and predictive pre-fetching to reduce turns.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - todo
-  - bash
-  - grep
+  - Read
+  - TaskCreate
+  - Bash
+  - Grep
 ---
 
 # Meta Optimizer

@@ -1,13 +1,14 @@
 ---
 name: git-integrator
 description: |
+trigger: on git events or scheduled
   Manages Git operations intelligently. Handles commits, branches, 
   and conflict resolution based on the task objective.
 user-invocable: true
 allowed-tools:
-  - bash
-  - read_file
-  - grep
+  - Bash
+  - Read
+  - Grep
 ---
 
 # Git Integrator

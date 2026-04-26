@@ -1,16 +1,62 @@
-# Survival DevEngineer Skill Repo
+# Vibe Survival Dev Skill Set
 
-This repository is a practical add-on layer for **Mistral Vibe**. It packages custom skills, custom agent profiles, custom prompts, and a continuity-oriented execution style that sits on top of the normal Vibe runtime.
+A practical survival kit for understanding, extending, and actually using Mistral Vibe as a moddable coding-agent runtime.
 
-The point of this repo is not "one magic prompt." The point is to make it clear how advanced Vibe setups actually work:
+[![GitHub stars](https://img.shields.io/github/stars/B-A-M-N/VibeSurvivalDevSkillSet?style=flat-square)](https://github.com/B-A-M-N/VibeSurvivalDevSkillSet)
+[![License](https://img.shields.io/github/license/B-A-M-N/VibeSurvivalDevSkillSet?style=flat-square)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/B-A-M-N/VibeSurvivalDevSkillSet?style=flat-square)](https://github.com/B-A-M-N/VibeSurvivalDevSkillSet/commits/main)
 
-- `skills/` adds reusable skill packs
-- `agents/` adds custom agent profiles via TOML
-- `prompts/` adds custom system prompts used by those agents
-- `config.toml` can enable the right runtime defaults
-- project-local `.vibe/` or global `~/.vibe/` placement determines where Vibe discovers everything
+## Table of Contents
 
-If you only copy `SKILL.md` files and skip the agent and prompt wiring, you are not installing the full system.
+- [What This Repo Is](#what-this-repo-is)
+- [Why This Exists](#why-this-exists)
+- [Not Just a Skill Pack](#not-just-a-skill-pack)
+- [Start Here](#start-here)
+- [What This Repo Contains](#what-this-repo-contains)
+- [The Important Mental Model](#the-important-mental-model)
+- [How Vibe Finds This Stuff](#how-vibe-finds-this-stuff)
+- [Setup Tiers](#setup-tier1-simple)
+  - [Tier 1: Simple](#setup-tier1-simple)
+  - [Tier 2: Advanced](#setup-tier2-advanced)
+  - [Tier 3: Pro](#setup-tier3-pro)
+- [Project-Local Install](#project-local-install-instead-of-global)
+- [Recommended Rollout Path](#recommended-rollout-path)
+- [Pipeline Tier 4: SpecForge](#pipeline-tier-4-specforge--specification-factory)
+- [Pipeline Tier 5: ResearchForge](#pipeline-tier-5-researchforge--research-only-factory)
+- [Pipeline Tier 6: SkillForge](#pipeline-tier-6-skillforge--interactive-skillagentloop-factory)
+- [How To Create Your Own Specialized Loop](#how-to-create-your-own-specialized-loop)
+- [Practical Notes](#practical-notes)
+- [Suggested First Things To Read](#suggested-first-things-to-read)
+- [Minimal Publish Checklist](#minimal-publish-checklist)
+
+## What This Repo Is
+
+Mistral Vibe is extremely powerful, but the path to using it well is not obvious.
+
+This repo exists because Vibe is not just "a coding agent."
+It is closer to a moddable agent runtime.
+
+That is why this project includes skills, agents, prompts, middleware, loops, and source-level patterns together. The goal is not to replace Vibe, but to show what becomes possible when you treat Vibe as an extensible system instead of a normal CLI coding assistant.
+
+## Why This Exists
+
+Mistral Vibe is one of the most capable and under-discussed coding agent runtimes available right now.
+
+The problem is not lack of power.
+
+The problem is discoverability.
+
+Many of Vibe's strongest capabilities only become obvious once you understand how its prompts, skills, agents, middleware, and execution loop fit together. That learning curve is steep enough that people can easily miss what makes Vibe special.
+
+This repo tries to make that path clearer.
+
+## Not Just a Skill Pack
+
+This repo contains skills, but it is not merely a skill pack.
+
+A normal skill pack gives Vibe procedures to read.
+
+This repo is different: it documents and demonstrates a broader way of thinking about Vibe as a customizable agent runtime. The included skills are examples of how to structure higher-level behavior, but the real lesson is the architecture around them.
 
 ## Start Here
 
@@ -40,6 +86,8 @@ If you want the shortest path to understanding:
   - `team-verify.toml`
 - `prompts/`
   Contains the prompts used by the main continuity loop and the supporting subagents.
+- `systems/`
+  Contains full pipeline systems (SpecForge, ResearchForge, SkillForge) with their own agents, prompts, and skills organized per system.
 - `docs/`
   Contains deeper architecture and behavior docs if you want the full rationale, not just the install steps.
 - `examples/`
@@ -82,6 +130,106 @@ Recommended rule:
 
 - use project-local `.vibe/` when the setup is tied to one repo
 - use global `~/.vibe/` when you want the same system across projects
+
+## Multi-Provider Configuration
+
+Vibe supports multiple LLM providers in the same runtime. You can mix models from different providers (Mistral, OpenRouter, Anthropic, OpenAI) and assign them to different agents or subagents.
+
+### Defining Providers
+
+Each `[[providers]]` block registers a provider. The `api_style` and `backend` fields tell Vibe how to talk to the API:
+
+```toml
+[[providers]]
+name = "mistral"
+api_base = "https://api.mistral.ai/v1"
+api_key_env_var = "MISTRAL_API_KEY"
+api_style = "openai"
+backend = "mistral"
+
+[[providers]]
+name = "openrouter"
+api_base = "https://openrouter.ai/api/v1"
+api_key_env_var = "OPENROUTER_API_KEY"
+api_style = "openai"
+backend = "openai"
+
+[[providers]]
+name = "anthropic"
+api_base = "https://api.anthropic.com"
+api_key_env_var = "ANTHROPIC_API_KEY"
+api_style = "anthropic"
+backend = "anthropic"
+```
+
+Key fields:
+- `name` — referenced by `[[models]]` entries
+- `api_base` — the endpoint URL
+- `api_key_env_var` — environment variable holding the API key
+- `api_style` — wire format: `"openai"` (OpenAI-compatible) or `"anthropic"`
+- `backend` — which Vibe backend driver to use
+
+### Defining Models
+
+Each `[[models]]` entry maps a model name to a provider. Use `alias` for a short name you can reference elsewhere:
+
+```toml
+[[models]]
+name = "mistral-large-latest"
+provider = "mistral"
+alias = "devstral-2"
+temperature = 0.2
+thinking = "off"
+
+[[models]]
+name = "tencent/hy3-preview:free"
+provider = "openrouter"
+alias = "hy3"
+temperature = 0.2
+
+[[models]]
+name = "claude-opus-4-7"
+provider = "anthropic"
+alias = "opus"
+temperature = 0.2
+thinking = "on"
+```
+
+### Using Different Models for Main vs Subagents
+
+Vibe lets you run your main agent on one model and subagents on another — useful when you want a cheaper/faster model for delegated work:
+
+```toml
+# Main agent model
+active_model = "devstral-2"
+
+[subagents]
+enabled = true
+default_model = "hy3"          # subagents use OpenRouter
+max_concurrent = 3
+```
+
+### Per-Agent Model Override
+
+Agent TOML files can also specify their own model, so you can build a team where each role uses the best-fit provider:
+
+```toml
+# agents/specforge-analyst.toml
+name = "specforge-analyst"
+model = "hy3"                    # OpenRouter for research tasks
+```
+
+### Environment Variables
+
+Set your API keys before launching Vibe:
+
+```bash
+export MISTRAL_API_KEY="your-key-here"
+export OPENROUTER_API_KEY="your-key-here"
+export ANTHROPIC_API_KEY="your-key-here"
+```
+
+Or use a `.env` file in your project root (Vibe will pick it up automatically).
 
 ## Setup Tier 1: Simple
 
@@ -230,9 +378,9 @@ Turns vague product intent into enforceable application contracts and scenario s
 
 | SpecForge Concept | Mistral-Vibe Component | File |
 |-------------------|--------------------------|------|
-| Skill (phase step) | `SkillManager` → `SKILL.md` | `skills/specforge/NN-*/SKILL.md` |
-| Agent (role) | `AgentManager` → agent `TOML` + prompt | `agents/specforge/*.toml`, `prompts/specforge-*.md` |
-| Overseer (orchestrator) | `AgentLoop.act()` with `MiddlewarePipeline` | `prompts/specforge-overseer.md` |
+| Skill (phase step) | `SkillManager` → `SKILL.md` | `systems/specforge/skills/NN-*/SKILL.md` |
+| Agent (role) | `AgentManager` → agent `TOML` + prompt | `systems/specforge/agents/*.toml`, `systems/specforge/prompts/*.md` |
+| Overseer (orchestrator) | `AgentLoop.act()` with `MiddlewarePipeline` | `systems/specforge/prompts/specforge-overseer.md` |
 | Subagent delegation | `AgentLoop` → `ToolManager.execute()` → `task()` | `config.toml` subagent settings |
 | Orient/Plan/Execute | `MiddlewarePipeline` (Orient) → plan → execute | `vibe/core/middleware.py` |
 | Turn-based execution | `AgentLoop` message loop + event streaming | `vibe/core/agent_loop.py` |
@@ -257,15 +405,15 @@ User → AgentLoop.act(prompt)
 
 ```bash
 mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
-cp -a skills/specforge/* ~/.vibe/skills/
-cp -a agents/specforge/* ~/.vibe/agents/
-cp -a prompts/specforge-*.md ~/.vibe/prompts/
+cp -a systems/specforge/skills/* ~/.vibe/skills/
+cp -a systems/specforge/agents/* ~/.vibe/agents/
+cp -a systems/specforge/prompts/*.md ~/.vibe/prompts/
 ```
 
 Then enable in `~/.vibe/config.toml`:
 
 ```toml
-agent_paths = ["agents", "agents/specforge"]
+agent_paths = ["agents", "systems/specforge/agents"]
 enabled_agents = [
   "specforge-overseer",
   "specforge-analyst",
@@ -314,9 +462,9 @@ Solves complex issues through disciplined research. Produces a grounded research
 
 | ResearchForge Concept | Mistral-Vibe Component | File |
 |------------------------|--------------------------|------|
-| Skill (research step) | `SkillManager` → `SKILL.md` | `skills/researchforge/NN-*/SKILL.md` |
-| Agent (role) | `AgentManager` → agent `TOML` + prompt | `agents/researchforge/*.toml`, `prompts/researchforge-*.md` |
-| Overseer (orchestrator) | `AgentLoop.act()` + `MiddlewarePipeline` | `prompts/researchforge-overseer.md` |
+| Skill (research step) | `SkillManager` → `SKILL.md` | `systems/researchforge/skills/NN-*/SKILL.md` |
+| Agent (role) | `AgentManager` → agent `TOML` + prompt | `systems/researchforge/agents/*.toml`, `systems/researchforge/prompts/*.md` |
+| Overseer (orchestrator) | `AgentLoop.act()` + `MiddlewarePipeline` | `systems/researchforge/prompts/researchforge-overseer.md` |
 | Evidence collection | `ToolManager` → `read_file`, `grep`, `bash` | tools section in agent TOML |
 | Hypothesis builder | LLM reasoning via `stream_completion()` | `vibe/core/agent_loop.py` |
 | Targeted researcher | Subagent via `task()` tool | `researchforge-researcher` agent |
@@ -346,15 +494,15 @@ Problem → AgentLoop.act("researchforge-00-problem-intake")
 
 ```bash
 mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
-cp -a skills/researchforge/* ~/.vibe/skills/
-cp -a agents/researchforge/* ~/.vibe/agents/
-cp -a prompts/researchforge-*.md ~/.vibe/prompts/
+cp -a systems/researchforge/skills/* ~/.vibe/skills/
+cp -a systems/researchforge/agents/* ~/.vibe/agents/
+cp -a systems/researchforge/prompts/*.md ~/.vibe/prompts/
 ```
 
 Then enable in `~/.vibe/config.toml`:
 
 ```toml
-agent_paths = ["agents", "agents/specforge", "agents/researchforge"]
+agent_paths = ["agents", "systems/specforge/agents", "systems/researchforge/agents"]
 enabled_agents = [
   "specforge-overseer", "specforge-analyst", "specforge-architect",
   "researchforge-overseer", "researchforge-evidence",
@@ -408,10 +556,10 @@ Interactive assistant for creating, debugging, and installing mistral-vibe skill
 
 | SkillForge Concept | Mistral-Vibe Component | File |
 |---------------------|--------------------------|------|
-| Skill (entry point) | `SkillManager` → `SKILL.md` with `activation.type: runtime` | `skills/skill-forge/SKILL.md` |
-| Agent (forge loop) | `AgentManager` → agent `TOML` + prompt | `agents/skill-forge-agent.toml`, `prompts/skill-forge-system.md` |
-| Middleware (hard gating) | `MiddlewarePipeline` → custom middleware | `skills/skill-forge/middleware.py:SkillForgeMiddleware` |
-| Runtime switch | `AgentLoop` entrypoint/exitpoint hooks | `skills/skill-forge/agent_loop.py` |
+| Skill (entry point) | `SkillManager` → `SKILL.md` with `activation.type: runtime` | `systems/skill-forge/skills/SKILL.md` |
+| Agent (forge loop) | `AgentManager` → agent `TOML` + prompt | `systems/skill-forge/agents/skill-forge-agent.toml`, `systems/skill-forge/prompts/skill-forge-system.md` |
+| Middleware (hard gating) | `MiddlewarePipeline` → custom middleware | `systems/skill-forge/skills/skill-forge/middleware.py:SkillForgeMiddleware` |
+| Runtime switch | `AgentLoop` entrypoint/exitpoint hooks | `systems/skill-forge/skills/skill-forge/agent_loop.py` |
 | Staging | Transactional file staging before install | `~/.vibe/skill-forge-state/staging/<session_id>/` |
 | State snapshot | Pre/post runtime state persistence | `~/.vibe/skill-forge-state/current_session.json` |
 
@@ -454,15 +602,15 @@ User: /skill-forge
 
 ```bash
 mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
-cp -a skills/skill-forge ~/.vibe/skills/
-cp -a agents/skill-forge-agent.toml ~/.vibe/agents/
-cp -a prompts/skill-forge-system.md ~/.vibe/prompts/
+cp -a systems/skill-forge/skills/* ~/.vibe/skills/
+cp -a systems/skill-forge/agents/* ~/.vibe/agents/
+cp -a systems/skill-forge/prompts/* ~/.vibe/prompts/
 ```
 
 Then enable in `~/.vibe/config.toml`:
 
 ```toml
-agent_paths = ["agents", "agents/specforge", "agents/researchforge"]
+agent_paths = ["agents", "systems/specforge/agents", "systems/researchforge/agents", "systems/skill-forge/agents"]
 enabled_agents = [
   "specforge-overseer", "specforge-analyst", "specforge-architect",
   "researchforge-overseer", "researchforge-evidence",
@@ -530,6 +678,105 @@ Any skill can adopt this pattern by setting `activation.type: runtime` and provi
 
 ---
 
+## Runtime Adapter Pattern (Control-Plane Integration)
+
+The cleanest way to integrate a control plane into Mistral Vibe **without forking or patching core code** is to wrap Vibe's runtime objects at the instance level.
+
+### Concept
+
+Instead of editing `vibe/core/agent_loop.py` or `vibe/core/tool_manager.py`, you wrap the live objects so every call passes through your middleware before reaching the real Vibe internals:
+
+```
+Vibe AgentLoop
+   ↓
+MiddlewareAgentLoop wrapper (optional)
+   ↓
+Vibe ToolManager replaced with MiddlewareToolManager
+   ↓
+MiddlewarePipeline (Tracing / Drift / Verification / Gating / State)
+   ↓
+Original Vibe ToolManager (actual execution)
+```
+
+### Wrap ToolManager (minimum viable integration)
+
+This is the most important adapter. Replace the agent loop's `tool_manager` with a wrapped version that intercepts all tool calls:
+
+```python
+from systems.core.adapters import MiddlewareToolManager
+
+agent_loop.tool_manager = MiddlewareToolManager(
+    base_tool_manager=agent_loop.tool_manager,
+    middleware=my_middleware_pipeline,
+    context=my_forge_context,
+)
+```
+
+Once wrapped, every tool call (`bash`, `write_file`, `edit_file`, etc.) passes through your middleware before execution. This gives you:
+
+- tool call gating (block/modify)
+- command logging and validation
+- file operation interception
+- post-execution result inspection
+- state injection into the message list
+
+### Wrap AgentLoop (turn-level control)
+
+If you need turn-level state injection or message stream interception, wrap the agent loop itself:
+
+```python
+from systems.core.adapters import MiddlewareAgentLoop, wrap_agent_loop
+
+agent_loop = wrap_agent_loop(
+    base_agent_loop=agent_loop,
+    middleware=my_middleware_pipeline,
+    context=my_forge_context,
+)
+```
+
+The wrapper overrides `act()` to inject state before each turn and (if `act()` yields events) to intercept individual messages in the stream.
+
+### Adapter Source Layout
+
+```
+systems/core/adapters/
+  __init__.py
+  tool_manager_adapter.py      # MiddlewareToolManager
+  agent_loop_adapter.py        # MiddlewareAgentLoop
+  install.py                    # factory: wrap_agent_loop()
+```
+
+### Install Helper
+
+The `install.py` factory makes this a one-liner:
+
+```python
+from systems.core.adapters.install import install_control_plane
+
+agent_loop = install_control_plane(
+    agent_loop=base_agent_loop,
+    middleware=my_middleware_pipeline,
+    context=my_forge_context,
+)
+```
+
+### Key Rules
+
+- **Instance wrapping only** — never monkeypatch classes globally (`AgentLoop.act = ...`). Always wrap at the instance level so the original Vibe code stays untouched and reversible.
+- **`__getattr__` passthrough** — adapters forward any attribute they don't explicitly override to the real Vibe object, so you only intercept choke points.
+- **No core edits** — if you find yourself editing `vibe/core/agent_loop.py`, stop. The point is to prove the control-plane pattern *outside* Vibe, not to fork it.
+
+### What This Proves
+
+This approach turns the repo from "cool architecture documents" into a **portable, plug-compatible control-plane layer** that:
+
+- demonstrates observable, enforceable runtime behavior
+- can be removed without touching Vibe source
+- is testable independently of Vibe internals
+- can be upstreamed later as a middleware proposal without dragging along fork complexity
+
+---
+
 ## How To Create Your Own Specialized Loop
 
 The clean way to build your own system is:
@@ -582,19 +829,6 @@ Shape:
 - shared skill library
 - continuity and verification middleware concepts
 - persistent state files and recovery rules
-
-## Why This Repo Exists
-
-Mistral Vibe is unusually powerful once you understand the layering model, but that power is easy to miss because the setup is not obvious from the outside.
-
-The common failure modes are:
-
-- copying only skills and wondering why the full behavior is missing
-- copying prompts without wiring the agent profile
-- creating custom agents without understanding how prompts and skills are discovered
-- treating compaction recovery as "just a prompt" instead of a full operating pattern
-
-This repo is meant to make that model visible and reusable.
 
 ## Practical Notes
 

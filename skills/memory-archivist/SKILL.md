@@ -1,14 +1,15 @@
 ---
 name: memory-archivist
 description: |
+trigger: on significant events or daily
   Manages persistent knowledge and project memory. Archives key decisions 
   and patterns to ensure continuity across long sessions.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - write_file
-  - grep
-  - bash
+  - Read
+  - Write
+  - Grep
+  - Bash
 ---
 
 # Memory Archivist

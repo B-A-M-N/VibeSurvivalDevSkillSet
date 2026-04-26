@@ -1,14 +1,15 @@
 ---
 name: code-quality
 description: |
+trigger: on code changes or scheduled
   Enforces code standards and best practices. Automatically validates syntax 
   and style before any file write or modification.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - write_file
-  - bash
-  - grep
+  - Read
+  - Write
+  - Bash
+  - Grep
 ---
 
 # Code Quality

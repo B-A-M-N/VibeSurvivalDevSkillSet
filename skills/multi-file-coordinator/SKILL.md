@@ -1,15 +1,16 @@
 ---
 name: multi-file-coordinator
 description: |
+trigger: when multiple files need coordination
   Coordinates complex changes spanning multiple files. Manages cross-file 
   dependencies and ensures consistency after batch modifications.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - write_file
-  - grep
-  - bash
-  - todo
+  - Read
+  - Write
+  - Grep
+  - Bash
+  - TaskCreate
 ---
 
 # Multi-File Coordinator

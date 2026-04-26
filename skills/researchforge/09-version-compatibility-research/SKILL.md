@@ -5,9 +5,9 @@ description: |
   version-specific behavior, breaking changes, and compatibility matrices.
 user-invocable: false
 allowed-tools:
-  - bash
-  - read_file
-  - grep
+  - Bash
+  - Read
+  - Grep
 ---
 
 # ResearchForge: Version Compatibility Research

@@ -5,9 +5,9 @@ description: |
   multiple solution paths with evidence basis and risk assessment.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # ResearchForge: Solution Option Synthesis

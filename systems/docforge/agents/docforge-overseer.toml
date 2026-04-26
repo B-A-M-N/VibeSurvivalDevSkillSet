@@ -1,0 +1,22 @@
+name = "docforge-overseer"
+model = "hy3"
+system_prompt = "docforge-overseer"
+
+[tools]
+bash = "always"
+read_file = "always"
+write_file = "ask"
+search_replace = "ask"
+grep = "always"
+task = "always"
+ask_user_question = "always"
+
+[behavior]
+temperature = 0.2
+max_turns = 50
+checkpoint_frequency = 3
+
+[middleware]
+custom_middleware = "systems/docforge/middleware.py:DocForgeMiddleware"
+load_on_invoke = true
+stash_existing = false

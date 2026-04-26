@@ -5,9 +5,9 @@ description: |
   from docs, logs, code, issues, and official sources.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # ResearchForge: Evidence Collection

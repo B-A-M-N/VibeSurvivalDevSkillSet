@@ -5,10 +5,10 @@ description: |
   scenarios into the authoritative specification document.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - write_file
+  - Read
+  - Grep
+  - Bash
+  - Write
 ---
 
 # SpecForge: Final Spec Assembly

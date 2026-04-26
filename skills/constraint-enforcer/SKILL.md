@@ -1,14 +1,15 @@
 ---
 name: constraint-enforcer
 description: |
+trigger: when constraints need validation
   Enforces hard boundaries and project invariants. Prevents out-of-scope 
   actions and unauthorized file modifications.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - bash
-  - grep
-  - todo
+  - Read
+  - Bash
+  - Grep
+  - TaskCreate
 ---
 
 # Constraint Enforcer

@@ -5,9 +5,9 @@ description: |
   is authorized to do, what it must never do, and who holds each permission.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Authority Boundary Definition

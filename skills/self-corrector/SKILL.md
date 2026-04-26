@@ -1,14 +1,15 @@
 ---
 name: self-corrector
 description: |
+trigger: on test failures or issues
   Critiques your own reasoning and catches logical errors before they 
   become tool calls. Uses reflective analysis to identify assumptions.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - todo
-  - bash
-  - grep
+  - Read
+  - TaskCreate
+  - Bash
+  - Grep
 ---
 
 # Self Corrector

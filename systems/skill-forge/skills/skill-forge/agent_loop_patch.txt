@@ -1,0 +1,117 @@
+Patch for agent_loop.py to support skill-forge dynamic middleware/agent loop swapping
+
+=== FILE: agent_loop.py ===
+
+1. ADD IMPORT at top of file (around line 1-20, with other imports):
+```python
+import sys
+from pathlib import Path
+```
+
+2. FIND METHOD: `async def run(self, ...)` or wherever skill invocation is handled
+   (Search for "skill_manager" or "Skill tool" or "slash command")
+
+   ADD AFTER skill-forge is detected as the active skill:
+
+```python
+# --- BEGIN skill-forge integration ---
+if active_skill_name == 'skill-forge':
+    # Load custom middleware and stash existing state
+    try:
+        # Get skill-forge skill directory
+        skill_info = self.skill_manager.get_skill('skill-forge')
+        if skill_info and skill_info.skill_dir:
+            skill_forge_dir = Path(skill_info.skill_dir)
+
+            # Add skill-forge dir to sys.path temporarily
+            if str(skill_forge_dir) not in sys.path:
+                sys.path.insert(0, str(skill_forge_dir))
+
+            # Import and instantiate middleware
+            from middleware import SkillForgeMiddleware
+            forge_middleware = SkillForgeMiddleware()
+
+            # Stash existing state with labels
+            current_agent_name = getattr(self.agent_manager, 'current_agent', None)
+            current_agent_name = getattr(current_agent_name, 'name', 'unknown') if current_agent_name else 'none'
+
+            middleware_label = f"pre-forge-mw-{current_agent_name}"
+            agent_loop_label = f"pre-forge-loop-{current_agent_name}"
+
+            forge_middleware.stash_state(
+                pipeline=self.middleware_pipeline,
+                agent_manager=self.agent_manager,
+                middleware_label=middleware_label,
+                agent_loop_label=agent_loop_label
+            )
+
+            # Add custom middleware to pipeline
+            self.middleware_pipeline.add(forge_middleware)
+
+            # Switch to skill-forge agent loop
+            try:
+                self.agent_manager.switch_profile('skill-forge')
+                logger.info("Switched to skill-forge agent loop")
+            except Exception as e:
+                logger.warning("Could not switch to skill-forge agent: %s", e)
+
+            logger.info("skill-forge middleware loaded, state stashed")
+    except Exception as e:
+        logger.error("Failed to initialize skill-forge: %s", e)
+# --- END skill-forge integration ---
+```
+
+3. FIND METHOD: Where skill session ENDS or when skill-forge completes
+
+   ADD cleanup code:
+
+```python
+# --- BEGIN skill-forge cleanup ---
+if active_skill_name == 'skill-forge':
+    # Find and interact with SkillForgeMiddleware to get user decision
+    for m in self.middleware_pipeline._middlewares:
+        if hasattr(m, 'restore_state'):
+            # The "Apply?" prompt should be done via the skill's interactive flow
+            # The middleware's restore_state() handles the actual restoration
+            # This is called after the skill's interactive experience completes
+            pass
+
+    # Cleanup: remove skill-forge dir from sys.path
+    skill_info = self.skill_manager.get_skill('skill-forge')
+    if skill_info and skill_info.skill_dir:
+        skill_forge_dir = str(Path(skill_info.skill_dir))
+        if skill_forge_dir in sys.path:
+            sys.path.remove(skill_forge_dir)
+# --- END skill-forge cleanup ---
+```
+
+4. ALTERNATIVE APPROACH: Modify `skill.py` tool instead
+
+   In `skill.py`, around where the skill is invoked (after `yield SkillResult`):
+
+```python
+# After skill execution completes
+if args.name == 'skill-forge':
+    # Prompt user about applying work
+    # This would need to be done via the AskUserQuestion tool or similar
+    # The middleware's restore_state() should be called after user decides
+    pass
+```
+
+=== SUMMARY OF CHANGES NEEDED ===
+
+1. agent_loop.py needs to detect skill-forge invocation
+2. When detected, call `stash_state()` on the middleware
+3. Load `SkillForgeMiddleware` into pipeline
+4. Switch to `skill-forge-agent` agent loop
+5. When skill completes, prompt user "Apply work? (yes/no)"
+6. Call `restore_state(apply_user_work=True/False)` based on user input
+7. Clean up sys.path
+
+The skill-forge skill files are complete:
+- skills/skill-forge/SKILL.md (skill definition)
+- skills/skill-forge/middleware.py (middleware with stash/restore)
+- skills/skill-forge/__init__.py (package init)
+- agents/skill-forge-agent.toml (agent config)
+- prompts/skill-forge-system.md (system prompt)
+- install.sh (updated to include skill-forge)

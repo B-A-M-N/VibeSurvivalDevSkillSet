@@ -1,0 +1,6 @@
+[agent]
+name = "testforge-overseer"
+model = "hy3"
+max_turns = 60
+delegates = ["testforge-generator", "testforge-coverage"]
+role = "Orchestrator — plans test matrix, delegates to generator & coverage, gates on coverage readiness"

@@ -5,9 +5,9 @@ description: |
   patterns, anti-patterns, and best practices for the problem space.
 user-invocable: false
 allowed-tools:
-  - bash
-  - read_file
-  - grep
+  - Bash
+  - Read
+  - Grep
 ---
 
 # ResearchForge: Architecture Pattern Research

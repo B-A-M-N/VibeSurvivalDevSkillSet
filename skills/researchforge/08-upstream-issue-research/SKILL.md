@@ -5,9 +5,9 @@ description: |
   PR comments, and mailing lists for known bugs and solutions.
 user-invocable: false
 allowed-tools:
-  - bash
-  - read_file
-  - grep
+  - Bash
+  - Read
+  - Grep
 ---
 
 # ResearchForge: Upstream Issue Research

@@ -5,9 +5,9 @@ description: |
   documentation, RFCs, and standards for authoritative answers.
 user-invocable: false
 allowed-tools:
-  - bash
-  - read_file
-  - grep
+  - Bash
+  - Read
+  - Grep
 ---
 
 # ResearchForge: Official Docs Research

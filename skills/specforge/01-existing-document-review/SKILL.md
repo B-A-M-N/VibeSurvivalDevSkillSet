@@ -5,9 +5,9 @@ description: |
   from existing docs, README files, issues, and partial specs.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Existing Document Review

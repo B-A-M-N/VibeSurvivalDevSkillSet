@@ -1,6 +1,22 @@
-display_name = "AUDIT-Sentry (Qwen-3.6)"
+display_name = "AUDIT-Sentry (Adversarial Review)"
 name = "team-verify"
-description = "Logic and safety auditor optimized for node .198. Use for code verification."
+description = "Adversarial logic and safety auditor. Reviews completed work for correctness, security, and spec conformance. Used by StateSentryMiddleware for phase validation."
 agent_type = "subagent"
 auto_approve = true
-model = "Qwen3.6-35b-198"
+system_prompt_id = "team-verify"
+model = "ling-opus-free"
+
+[tools]
+[tools.Read]
+permission = "always"
+
+[tools.Grep]
+permission = "always"
+
+[tools.Bash]
+permission = "ask"
+
+[behavior]
+auto_continue = true
+max_iterations = 50
+require_user_confirmation = false

@@ -5,9 +5,9 @@ description: |
   permissions, and state transitions are resolved when they conflict.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Conflict Resolution Layer

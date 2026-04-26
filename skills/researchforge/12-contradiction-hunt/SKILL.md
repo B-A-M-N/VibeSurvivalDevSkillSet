@@ -5,9 +5,9 @@ description: |
   the current theory is wrong, unsupported assumptions, and weak claims.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # ResearchForge: Contradiction Hunt

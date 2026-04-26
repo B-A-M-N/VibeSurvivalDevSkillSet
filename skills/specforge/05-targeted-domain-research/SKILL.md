@@ -5,9 +5,9 @@ description: |
   and returns only implementation-relevant findings in structured format.
 user-invocable: false
 allowed-tools:
-  - bash
-  - read_file
-  - grep
+  - Bash
+  - Read
+  - Grep
 ---
 
 # SpecForge: Targeted Domain Research

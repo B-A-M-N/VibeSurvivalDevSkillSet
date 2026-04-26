@@ -1,6 +1,7 @@
 # SKILL: Dual-Agent Continuation Enforcement System
 # Target: Devstral-2 via Mistral Vibe CLI
 # Version: 2.0.0
+trigger: scheduled or on-demand
 # Architecture: Dual-Agent (Main + Observer)
 
 ---

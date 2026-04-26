@@ -1,0 +1,8 @@
+[agent]
+name = "debugforge-reproducer"
+model = "devstral-2"
+max_turns = 40
+description = "Bug reproducer, creates minimal test case"
+tools = ["bash=always", "file_operations", "text_analysis"]
+role = "reproducer"
+collaboration = ["debugforge-overseer", "debugforge-fixer"]

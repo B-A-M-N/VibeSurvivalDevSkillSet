@@ -1,0 +1,18 @@
+[agent]
+name = "docforge-diagrams"
+model = "hy3"
+max_turns = 40
+role = "Architecture Visualizer"
+
+[capabilities]
+dependency_extraction = true
+graph_generation = true
+mermaid_export = true
+plantuml_export = true
+flow_chart = true
+state_machine = true
+
+[settings]
+output_dir = "diagrams"
+dot_format = "svg"
+layout = "hierarchical"

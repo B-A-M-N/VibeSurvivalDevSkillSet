@@ -1,0 +1,14 @@
+name = "debugforge-reproducer"
+model = "devstral-2"
+system_prompt = "debugforge-reproducer"
+
+[tools]
+bash = "always"
+read_file = "always"
+write_file = "ask"
+search_replace = "ask"
+grep = "always"
+
+[behavior]
+temperature = 0.1
+max_turns = 50

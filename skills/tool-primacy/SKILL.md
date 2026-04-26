@@ -1,15 +1,16 @@
 ---
 name: tool-primacy
 description: |
+trigger: when tool selection needed
   Enforces action over explanation. Prevents the agent from declaring 
   limitations ("I cannot") when tools are available.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - write_file
-  - bash
-  - grep
-  - todo
+  - Read
+  - Write
+  - Bash
+  - Grep
+  - TaskCreate
 ---
 
 # Tool Primacy

@@ -5,9 +5,9 @@ description: |
   authorization, secrets handling, injection defenses, and audit logging.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Security & Permission Specification

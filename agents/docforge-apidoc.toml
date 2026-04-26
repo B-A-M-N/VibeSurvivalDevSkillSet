@@ -1,0 +1,20 @@
+[agent]
+name = "docforge-apidoc"
+model = "devstral-2"
+max_turns = 30
+role = "API Documentation Specialist"
+
+[tool_permissions]
+write_file = "always"
+read_file = "always"
+
+[capabilities]
+signature_parsing = true
+type_extraction = true
+spec_validation = true
+markdown_generation = true
+
+[settings]
+output_dir = "api"
+format = "markdown"
+include_private = false

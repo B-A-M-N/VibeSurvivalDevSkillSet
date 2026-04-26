@@ -1,6 +1,25 @@
 display_name = "CODER-REFiner (Qwen-3 Coder)"
 name = "team-dev"
-description = "High-fidelity coding engine optimized for node .89. Use for algorithmic refactoring."
+description = "High-fidelity coding engine optimized for node .89. Use for algorithmic refactoring, implementation, and code generation."
 agent_type = "subagent"
 auto_approve = true
+system_prompt_id = "team-dev"
 model = "Qwen3-Coder-89"
+
+[tools]
+[tools.Read]
+permission = "always"
+
+[tools.Write]
+permission = "always"
+
+[tools.Bash]
+permission = "ask"
+
+[tools.Grep]
+permission = "always"
+
+[behavior]
+auto_continue = true
+max_iterations = 50
+require_user_confirmation = false

@@ -1,16 +1,17 @@
 ---
 name: overlord
 description: |
+trigger: when managing overall workflow
   Supreme orchestrator for the Distributed Team Harness.
   Manages skill activation, resolves cross-agent conflicts, and selects the 
   optimal Sub-Team for specialized tasks.
 user-invocable: true
 allowed-tools:
-  - task
-  - read_file
-  - todo
-  - bash
-  - grep
+  - Agent
+  - Read
+  - TaskCreate
+  - Bash
+  - Grep
 ---
 
 # Overlord

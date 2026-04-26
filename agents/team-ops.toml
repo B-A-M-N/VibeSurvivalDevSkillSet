@@ -1,6 +1,25 @@
 display_name = "TOOL-Orchestrator (Command-R)"
 name = "team-ops"
-description = "Infrastructure and tool-use specialist optimized for node .89. Use for environment/git ops."
+description = "Infrastructure and tool-use specialist optimized for node .89. Use for environment setup, git operations, and filesystem tasks."
 agent_type = "subagent"
 auto_approve = true
+system_prompt_id = "team-ops"
 model = "Command-R-89"
+
+[tools]
+[tools.Read]
+permission = "always"
+
+[tools.Write]
+permission = "always"
+
+[tools.Bash]
+permission = "always"
+
+[tools.Grep]
+permission = "always"
+
+[behavior]
+auto_continue = true
+max_iterations = 50
+require_user_confirmation = false

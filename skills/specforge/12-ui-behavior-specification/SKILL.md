@@ -5,9 +5,9 @@ description: |
   user interactions, feedback, and state-driven UI changes.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: UI Behavior Specification

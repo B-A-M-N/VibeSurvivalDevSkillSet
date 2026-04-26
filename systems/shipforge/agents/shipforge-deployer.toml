@@ -1,0 +1,15 @@
+name = "shipforge-deployer"
+model = "hy3"
+system_prompt = "shipforge-deployer"
+
+[tools]
+bash = "always"
+read_file = "always"
+write_file = "always"
+search_replace = "always"
+grep = "always"
+task = "always"
+
+[behavior]
+temperature = 0.2
+max_turns = 40

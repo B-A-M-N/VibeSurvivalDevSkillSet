@@ -5,10 +5,10 @@ description: |
   success criteria, and boundaries before any specification work begins.
 user-invocable: true
 allowed-tools:
-  - task
-  - ask_user_question
-  - read_file
-  - grep
+  - Agent
+  - AskUserQuestion
+  - Read
+  - Grep
 ---
 
 # SpecForge: Intake & Goal Clarification

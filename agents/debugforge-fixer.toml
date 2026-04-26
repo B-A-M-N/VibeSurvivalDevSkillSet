@@ -1,0 +1,8 @@
+[agent]
+name = "debugforge-fixer"
+model = "hy3"
+max_turns = 50
+description = "Fix generator, analyzes root cause, generates fix options"
+tools = ["bash", "file_operations", "text_analysis"]
+role = "fix_generator"
+collaboration = ["debugforge-overseer", "debugforge-reproducer"]

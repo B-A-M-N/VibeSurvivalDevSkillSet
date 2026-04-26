@@ -1,13 +1,14 @@
 ---
 name: task-decomposer
 description: |
+trigger: when breaking down complex tasks
   Ensures every task is broken into atomic, single-action steps. 
   Prevents compound language ("and", "also") and vague targets in the .todo list.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - todo
-  - bash
+  - Read
+  - TaskCreate
+  - Bash
 ---
 
 # Task Decomposer

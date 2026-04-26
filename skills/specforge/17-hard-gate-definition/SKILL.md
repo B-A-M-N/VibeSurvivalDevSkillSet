@@ -5,9 +5,9 @@ description: |
   that block deployment, release, or execution if violated.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Hard Gate Definition

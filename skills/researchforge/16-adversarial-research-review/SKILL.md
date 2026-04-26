@@ -5,10 +5,10 @@ description: |
   that rejects the packet if recommendations lack evidence or sources are weak.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - ask_user_question
+  - Read
+  - Grep
+  - Bash
+  - AskUserQuestion
 ---
 
 # ResearchForge: Adversarial Research Review

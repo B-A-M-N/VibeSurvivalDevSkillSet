@@ -1,14 +1,15 @@
 ---
 name: verification-enforcer
 description: |
+trigger: after fixes are applied
   Strictly enforces verification-based completion. Prevents "Optimistic 
   Completion" by requiring tool-based proof for every step.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - bash
-  - grep
-  - todo
+  - Read
+  - Bash
+  - Grep
+  - TaskCreate
 ---
 
 # Verification Enforcer

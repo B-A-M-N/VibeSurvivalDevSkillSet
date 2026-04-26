@@ -1,0 +1,16 @@
+name = "testforge-coverage"
+model = "hy3"
+system_prompt = "testforge-coverage"
+
+[tools]
+bash = "always"
+read_file = "always"
+write_file = "ask"
+search_replace = "ask"
+grep = "always"
+task = "always"
+
+[behavior]
+temperature = 0.2
+max_turns = 40
+report_only = true

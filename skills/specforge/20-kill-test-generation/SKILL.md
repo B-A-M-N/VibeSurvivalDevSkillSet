@@ -5,9 +5,9 @@ description: |
   designed to break invariants and expose system failures.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: Kill Test Generation

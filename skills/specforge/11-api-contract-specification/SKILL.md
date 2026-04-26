@@ -5,9 +5,9 @@ description: |
   schemas, auth requirements, rate limits, and error responses.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
+  - Read
+  - Grep
+  - Bash
 ---
 
 # SpecForge: API Contract Specification

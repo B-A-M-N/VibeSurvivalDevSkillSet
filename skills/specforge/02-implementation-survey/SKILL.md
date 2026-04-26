@@ -5,10 +5,10 @@ description: |
   API, schema, tests, and UI to understand what is built — not what should be.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - bash
-  - task
+  - Read
+  - Grep
+  - Bash
+  - Agent
 ---
 
 # SpecForge: Implementation Survey

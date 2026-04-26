@@ -5,10 +5,10 @@ description: |
   to find missing decisions, contradictions, and research needs.
 user-invocable: false
 allowed-tools:
-  - read_file
-  - grep
-  - ask_user_question
-  - bash
+  - Read
+  - Grep
+  - AskUserQuestion
+  - Bash
 ---
 
 # SpecForge: Intent Gap Analysis

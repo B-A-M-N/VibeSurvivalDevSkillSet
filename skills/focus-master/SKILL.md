@@ -1,13 +1,14 @@
 ---
 name: focus-master
 description: |
+trigger: when managing focus sessions
   Enforces objective-centric execution. Prioritizes the shortest path to 
   a verified objective via the checkpoint and .todo list.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - todo
-  - bash
+  - Read
+  - TaskCreate
+  - Bash
 ---
 
 # Focus Master

@@ -1,0 +1,6 @@
+[agent]
+name = "testforge-coverage"
+model = "hy3"
+max_turns = 40
+report_only = true
+role = "Coverage analyzer — validates coverage vs SCENARIOS.md, reports gaps"

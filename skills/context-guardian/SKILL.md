@@ -1,13 +1,14 @@
 ---
 name: context-guardian
 description: |
+trigger: before major code changes
   Optimizes context usage to prevent token waste and premature compaction.
   Enforces a "Grep-First" reading strategy.
 user-invocable: true
 allowed-tools:
-  - read_file
-  - bash
-  - grep
+  - Read
+  - Bash
+  - Grep
 ---
 
 # Context Guardian

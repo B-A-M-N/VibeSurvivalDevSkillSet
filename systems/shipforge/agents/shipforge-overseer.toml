@@ -1,0 +1,22 @@
+name = "shipforge-overseer"
+model = "hy3"
+system_prompt = "shipforge-overseer"
+
+[tools]
+bash = "always"
+read_file = "always"
+write_file = "ask"
+search_replace = "ask"
+grep = "always"
+task = "always"
+ask_user_question = "always"
+
+[behavior]
+temperature = 0.2
+max_turns = 60
+checkpoint_frequency = 3
+
+[middleware]
+custom_middleware = "systems/shipforge/middleware.py:ShipForgeMiddleware"
+load_on_invoke = true
+stash_existing = false

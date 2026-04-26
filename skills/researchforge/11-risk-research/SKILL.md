@@ -5,9 +5,9 @@ description: |
   data loss, and operational risks related to the problem and solutions.
 user-invocable: false
 allowed-tools:
-  - bash
-  - read_file
-  - grep
+  - Bash
+  - Read
+  - Grep
 ---
 
 # ResearchForge: Risk Research
