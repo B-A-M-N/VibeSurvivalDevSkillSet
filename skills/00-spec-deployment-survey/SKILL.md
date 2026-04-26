@@ -34,7 +34,7 @@ trigger: docforge-overseer during phase 2
    - Create JSON/YAML output with parsed requirements
    - Include environment-specific configurations
    - Document security constraints
-   - Store in `/home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/artifacts/requirements/`
+   - Store in `./artifacts/requirements/`
 
 6. **Validate Spec Completeness**
    - Check for missing security sections

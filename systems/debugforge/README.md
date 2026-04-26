@@ -31,14 +31,14 @@ Issue → reproduce → isolate → fix options → validate → verify
 ## Install Bash Commands
 ```bash
 # Create directory structure
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/systems/debugforge/{agents,prompts}
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/skills/00-issue-intake
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/skills/01-reproduction
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/skills/02-bisection-isolation
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/skills/03-root-cause-analysis
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/skills/04-fix-option-generation
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/skills/05-scenario-validation
-mkdir -p /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/skills/06-fix-application
+mkdir -p ./systems/debugforge/{agents,prompts}
+mkdir -p ./skills/00-issue-intake
+mkdir -p ./skills/01-reproduction
+mkdir -p ./skills/02-bisection-isolation
+mkdir -p ./skills/03-root-cause-analysis
+mkdir -p ./skills/04-fix-option-generation
+mkdir -p ./skills/05-scenario-validation
+mkdir -p ./skills/06-fix-application
 
 # Install required tools
 pip install toml

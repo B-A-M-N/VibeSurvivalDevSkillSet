@@ -16,8 +16,8 @@ from pathlib import Path
 import sys
 
 # Paths
-MANAGER_PATH = Path("/home/bamn/mistral-vibe/vibe/core/skills/manager.py")
-AGENT_LOOP_PATH = Path("/home/bamn/mistral-vibe/vibe/core/agent_loop.py")
+MANAGER_PATH = Path("/path/to/vibe/vibe/core/skills/manager.py")
+AGENT_LOOP_PATH = Path("/path/to/vibe/vibe/core/agent_loop.py")
 PATCH_MARKER = "# --- RUNTIME ACTIVATION HOOK ---"
 
 

@@ -1,4 +1,6 @@
+# Runtime state - not portable
 .gemini_security/
+.vibe/
 *.db
 *.sqlite
 *.sqlite3
@@ -14,3 +16,24 @@
 __pycache__/
 *.pyc
 AGGREGATED SKILLS/
+
+# Secrets / credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.toml
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

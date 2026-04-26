@@ -1,5 +1,5 @@
 """
-Patch for /home/bamn/mistral-vibe/vibe/core/agent_loop.py
+Patch for /path/to/vibe/vibe/core/agent_loop.py
 
 Adds skill-forge runtime mode switching:
 - Detects /skill-forge invocation
@@ -13,7 +13,7 @@ APPLY:
 from pathlib import Path
 import sys
 
-AGENT_LOOP_PATH = Path("/home/bamn/mistral-vibe/vibe/core/agent_loop.py")
+AGENT_LOOP_PATH = Path("/path/to/vibe/vibe/core/agent_loop.py")
 PATCH_MARKER = "# --- SKILL-FORGE PATCH START ---"
 
 

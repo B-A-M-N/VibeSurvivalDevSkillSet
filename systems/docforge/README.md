@@ -40,7 +40,7 @@ Recheck on Change (05-doc-continuity-check)
 ## Install Bash Commands
 ```bash
 # Clone or navigate to the system
-cd /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/systems/docforge
+cd ./systems/docforge
 
 # Install dependencies (if any)
 pip install -r requirements.txt 2>/dev/null || true

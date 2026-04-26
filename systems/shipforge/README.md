@@ -39,7 +39,7 @@ Spec → survey → Dockerfile → CI pipeline → deploy checklist → parity c
 ## Install Bash Commands
 ```bash
 # Navigate to the system directory
-cd /home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/systems/shipforge
+cd ./systems/shipforge
 
 # Install required packages (if any)
 # apt-get update && apt-get install -y jq yq 2>/dev/null || true
@@ -52,7 +52,7 @@ chmod +x systems/shipforge/*.sh 2>/dev/null || true
 ```toml
 [shipforge]
   debug = false
-  output_dir = "/home/bamn/Mistral-Vibe-Survival-Dev-Skill-Set/artifacts"
+  output_dir = "./artifacts"
 
 [shipforge.agents]
   overseer.model = "hy3"
