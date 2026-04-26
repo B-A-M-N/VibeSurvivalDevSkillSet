@@ -24,6 +24,12 @@ A practical survival kit for understanding, extending, and actually using Mistra
 - [Pipeline Tier 4: SpecForge](#pipeline-tier-4-specforge--specification-factory)
 - [Pipeline Tier 5: ResearchForge](#pipeline-tier-5-researchforge--research-only-factory)
 - [Pipeline Tier 6: SkillForge](#pipeline-tier-6-skillforge--interactive-skillagentloop-factory)
+- [Pipeline Tier 7: CodeForge](#pipeline-tier-7-codeforge--implementation-factory)
+- [Pipeline Tier 8: DebugForge](#pipeline-tier-8-debugforge--debugging-factory)
+- [Pipeline Tier 9: DocForge](#pipeline-tier-9-docforge--documentation-factory)
+- [Pipeline Tier 10: ShipForge](#pipeline-tier-10-shipforge--deployment-factory)
+- [Pipeline Tier 11: TestForge](#pipeline-tier-11-testforge--test-generation-factory)
+- [Pipeline Tier 12: ReactiveForge](#pipeline-tier-12-reactiveforge--reactive-middleware)
 - [How To Create Your Own Specialized Loop](#how-to-create-your-own-specialized-loop)
 - [Practical Notes](#practical-notes)
 - [Suggested First Things To Read](#suggested-first-things-to-read)
@@ -235,9 +241,26 @@ Or use a `.env` file in your project root (Vibe will pick it up automatically).
 
 ## Setup Tier 1: Simple
 
-Use this if you just want better skills without changing your entire execution model.
+**Concept:** Foundational skill pack for coding agent discipline. No architectural changes to Vibe's core loop.
 
-Install:
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|----------|--------------------------|------|
+| Skill (procedure) | `SkillManager` → `SKILL.md` | `skills/<name>/SKILL.md` |
+| Activation | Prompt injection via `MiddlewarePipeline` | `vibe/core/middleware.py` |
+
+### Architecture Flow
+
+```
+User → AgentLoop.act(prompt)
+         ↓
+    Core skills available (anti-loop-debug, behavior-audit, focus-master, ...)
+         ↓
+    AgentLoop executes with improved turn discipline
+```
+
+### Install
 
 ```bash
 mkdir -p ~/.vibe/skills
@@ -246,34 +269,78 @@ cp -a skills/behavior-audit ~/.vibe/skills/
 cp -a skills/focus-master ~/.vibe/skills/
 cp -a skills/verification-master ~/.vibe/skills/
 cp -a skills/overlord ~/.vibe/skills/
+# Extended core library (recommended):
+cp -a skills/context-guardian ~/.vibe/skills/
+cp -a skills/pattern-prediction ~/.vibe/skills/
+cp -a skills/task-decomposer ~/.vibe/skills/
+cp -a skills/tool-primacy ~/.vibe/skills/
+cp -a skills/tool-dominator ~/.vibe/skills/
+cp -a skills/verification-enforcer ~/.vibe/skills/
 ```
 
-Good starter set:
+### Core Skills Included
 
-- `behavior-audit`
-- `anti-loop-debug`
-- `focus-master`
-- `verification-master`
-- `overlord`
+| Skill | Purpose |
+|-------|---------|
+| `anti-loop-debug` | Break repetitive failure cycles |
+| `behavior-audit` | Audit agent behavior for drift |
+| `focus-master` | Maintain focus on goal |
+| `verification-master` | Enforce verification before success claims |
+| `overlord` | Lightweight orchestration |
+| `context-guardian` | Protect context from pollution |
+| `pattern-prediction` | Predict and avoid known pitfalls |
+| `task-decomposer` | Break work into manageable tasks |
+| `tool-primacy` | Ensure tool correctness |
+| `tool-dominator` | Advanced tool control |
+| `verification-enforcer` | Hard verification gating |
 
-What this gives you:
+### What This Gives You
 
-- stronger turn discipline
-- fewer repeated failures
-- better verification habits
-- lightweight orchestration help
+- Stronger turn discipline
+- Fewer repeated failures
+- Better verification habits
+- Lightweight orchestration help
+- Context protection
+- Task decomposition
+- Pattern prediction
+- Tool correctness enforcement
 
-What it does not give you:
+### What It Does Not Give You
 
-- automatic compaction recovery
-- custom subagent loops
-- continuous drift monitoring
+- Automatic compaction recovery
+- Custom subagent loops
+- Continuous drift monitoring
+- Multi-agent team coordination
+- Pipeline forge systems (SpecForge, ResearchForge, etc.)
+
+---
 
 ## Setup Tier 2: Advanced
 
-Use this if you want continuity-aware execution and subagent-assisted recovery.
+**Concept:** Adds continuity-aware execution with checkpointing, watchdog drift checks, and state-sentry recovery. Introduces custom agent profiles and prompts.
 
-Install:
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|----------|--------------------------|------|
+| Agent profile | `AgentManager` → `TOML` + prompt | `agents/main-agent.toml`, `prompts/main.md` |
+| Watchdog subagent | `AgentLoop` → `ToolManager.execute()` → `task()` | `agents/watchdog.toml`, `prompts/watchdog.md` |
+| State-sentry subagent | Same as above | `agents/state-sentry.toml`, `prompts/state-sentry.md` |
+| Continuity skill | `SkillManager` → `SKILL.md` | `skills/vibe-continuity/SKILL.md` |
+
+### Architecture Flow
+
+```
+User → AgentLoop.act(prompt) with continuity-agent profile
+         ↓
+    MiddlewarePipeline injects continuity rules
+         ↓
+    Watchdog subagent monitors for drift
+         ↓
+    State-sentry recovers from compaction if needed
+```
+
+### Install
 
 ```bash
 mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
@@ -286,28 +353,57 @@ cp -a prompts/watchdog.md ~/.vibe/prompts/
 cp -a prompts/state-sentry.md ~/.vibe/prompts/
 ```
 
-Then either:
+### Agents Included
 
-- select the custom agent directly when you launch Vibe, or
-- fold the relevant values into your `~/.vibe/config.toml`
+- `main-agent` — primary continuity-aware agent
+- `watchdog` — drift detection and correction
+- `state-sentry` — checkpoint recovery and state reconstruction
 
-What this gives you:
+### What This Gives You
 
-- a main execution agent with continuity rules
-- a `watchdog` subagent for drift checks
-- a `state-sentry` subagent for recovery and reconstruction
-- prompt-level rules for checkpoint-first execution
+- A main execution agent with continuity rules
+- A `watchdog` subagent for drift checks
+- A `state-sentry` subagent for recovery and reconstruction
+- Prompt-level rules for checkpoint-first execution
+- Continuity skill (`vibe-continuity`)
+- Expanded core skill library
 
-What this does not yet give you:
+### What This Does Not Yet Give You
 
-- a full multi-agent team system
-- separate operational roles like dev/ops/verify specialization
+- A full multi-agent team system
+- Separate operational roles like dev/ops/verify specialization
+- Pipeline forge systems (SpecForge, ResearchForge, etc.)
+
+---
 
 ## Setup Tier 3: Pro
 
-Use this if you want a complete agent system rather than a few isolated enhancements.
+**Concept:** Full multi-agent team with specialized roles (dev, ops, verify), shared skill library, continuity middleware, and persistent state files.
 
-Install the entire runtime layer:
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|----------|--------------------------|------|
+| Team agents | `AgentManager` → `TOML` + prompt | `agents/team-*.toml`, `prompts/team-*.md` |
+| Skill library | `SkillManager` → `SKILL.md` | `skills/*/SKILL.md` |
+| Middleware | `MiddlewarePipeline` | `systems/core/middleware/*.py` |
+| Continuity | `vibe-continuity` skill | `skills/vibe-continuity/` |
+
+### Architecture Flow
+
+```
+User → AgentLoop.act(prompt) with team-agent profile
+         ↓
+    MiddlewarePipeline (continuity, drift, verification)
+         ↓
+    Team agents delegate via subagents (dev, ops, verify)
+         ↓
+    Shared skill library provides procedures
+         ↓
+    Persistent state files track progress
+```
+
+### Install
 
 ```bash
 mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
@@ -317,24 +413,31 @@ cp -a prompts/*.md ~/.vibe/prompts/
 cp -a config.toml ~/.vibe/config.toml
 ```
 
-This tier assumes:
+### Team Agents Included
 
-- you understand how custom agents in Vibe override runtime behavior
-- you are comfortable editing prompts and TOML
-- you want specialized team roles such as:
-  - dev
-  - ops
-  - verify
-  - watchdog
-  - state-sentry
+- `team-dev` — development specialization
+- `team-ops` — operations specialization
+- `team-verify` — verification specialization
+- `watchdog` — drift detection
+- `state-sentry` — recovery
 
-What this gives you:
+### What This Gives You
 
-- a skill library
-- a continuity loop
-- specialist subagents
-- team-oriented agent profiles
-- a base you can keep extending into your own system
+- A comprehensive skill library
+- A continuity loop with checkpointing
+- Specialist subagents (dev, ops, verify)
+- Team-oriented agent profiles
+- A base you can keep extending into your own system
+- Middleware primitives (drift, gating, verification, tracing)
+- Runtime adapter pattern (`systems/core/adapters/`)
+
+### Prerequisites
+
+- You understand how custom agents in Vibe override runtime behavior
+- You are comfortable editing prompts and TOML
+- You want specialized team roles
+
+---
 
 ## Project-Local Install Instead of Global
 
@@ -679,6 +782,264 @@ SkillForge implements a reusable pattern for runtime-activated skills:
 Any skill can adopt this pattern by setting `activation.type: runtime` and providing `entrypoint`/`exitpoint` hooks.
 
 ---
+---
+## Pipeline Tier 7: CodeForge — Implementation Factory
+
+Turns approved specs into running code. Multi-agent pipeline: overseer plans, implementer writes, validator verifies.
+
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|---------|----------------------|------|
+| Skill (phase) | `SkillManager` → `SKILL.md` | `systems/codeforge/skills/NN-*/SKILL.md` |
+| Overseer agent | `AgentManager` → TOML + prompt | `systems/codeforge/agents/codeforge-overseer.toml` |
+| Implementer | Subagent via `task()` | `systems/codeforge/agents/codeforge-implementer.toml` |
+| Validator | Subagent via `task()` | `systems/codeforge/agents/codeforge-validator.toml` |
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a systems/codeforge/skills/* ~/.vibe/skills/
+cp -a systems/codeforge/agents/* ~/.vibe/agents/
+cp -a systems/codeforge/prompts/* ~/.vibe/prompts/
+```
+
+### Phases
+
+| Phase | Skill | Agent |
+|-------|-------|--------|
+| 1. Spec Ingest | `00-spec-ingest` | `codeforge-overseer` |
+| 2. Codebase Survey | `01-codebase-survey` | `codeforge-overseer` |
+| 3. Implementation Planning | `02-implementation-planning` | `codeforge-overseer` |
+| 4. File Generation | `03-file-generation` | `codeforge-implementer` |
+| 5. Pattern Following | `04-pattern-following` | `codeforge-implementer` |
+| 6. Integration | `06-integration` | `codeforge-implementer` |
+| 7. Handoff Verification | `07-handoff-verification` | `codeforge-validator` |
+
+### Output Artifacts
+
+- `IMPLEMENTATION.md` — code files, integration notes, test results
+- `HANDOFF_REPORT.md` — verification results, conformance checklist
+
+---
+
+## Pipeline Tier 8: DebugForge — Debugging Factory
+
+Reproduces, isolates, and fixes bugs through disciplined bisection and root-cause analysis.
+
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|---------|----------------------|------|
+| Skill (phase) | `SkillManager` → `SKILL.md` | `systems/debugforge/skills/NN-*/SKILL.md` |
+| Overseer | `AgentManager` → TOML + prompt | `systems/debugforge/agents/debugforge-overseer.toml` |
+| Reproducer | Subagent via `task()` | `systems/debugforge/agents/debugforge-reproducer.toml` |
+| Fixer | Subagent via `task()` | `systems/debugforge/agents/debugforge-fixer.toml` |
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a systems/debugforge/skills/* ~/.vibe/skills/
+cp -a systems/debugforge/agents/* ~/.vibe/agents/
+cp -a systems/debugforge/prompts/* ~/.vibe/prompts/
+```
+
+### Phases
+
+| Phase | Skill | Agent |
+|-------|-------|--------|
+| 1. Issue Intake | `00-issue-intake` | `debugforge-overseer` |
+| 2. Reproduction | `01-reproduction` | `debugforge-reproducer` |
+| 3. Bisection Isolation | `02-bisection-isolation` | `debugforge-reproducer` |
+| 4. Root Cause Analysis | `03-root-cause-analysis` | `debugforge-overseer` |
+| 5. Fix Option Generation | `04-fix-option-generation` | `debugforge-overseer` |
+| 6. Scenario Validation | `05-scenario-validation` | `debugforge-fixer` |
+| 7. Fix Application | `06-fix-application` | `debugforge-fixer` |
+
+### Output Artifacts
+
+- `FIX_REPORT.md` — root cause, fix applied, scenario validation results
+- `REPRODUCTION_STEPS.md` — minimal steps to reproduce the issue
+
+---
+
+## Pipeline Tier 9: DocForge — Documentation Factory
+
+Generates API docs, architecture diagrams, inline docstrings, and README sync. No code changes.
+
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|---------|----------------------|------|
+| Skill (phase) | `SkillManager` → `SKILL.md` | `systems/docforge/skills/NN-*/SKILL.md` |
+| Overseer | `AgentManager` → TOML + prompt | `systems/docforge/agents/docforge-overseer.toml` |
+| APIDoc generator | Subagent via `task()` | `systems/docforge/agents/docforge-apidoc.toml` |
+| Diagrams generator | Subagent via `task()` | `systems/docforge/agents/docforge-diagrams.toml` |
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a systems/docforge/skills/* ~/.vibe/skills/
+cp -a systems/docforge/agents/* ~/.vibe/agents/
+cp -a systems/docforge/prompts/* ~/.vibe/prompts/
+```
+
+### Phases
+
+| Phase | Skill | Agent |
+|-------|-------|--------|
+| 1. Codebase Doc Survey | `00-codebase-doc-survey` | `docforge-overseer` |
+| 2. API Reference Gen | `01-api-reference-generation` | `docforge-apidoc` |
+| 3. Inline Docstring Gen | `02-inline-docstring-generation` | `docforge-apidoc` |
+| 4. Architecture Diagrams | `03-architecture-diagram-generation` | `docforge-diagrams` |
+| 5. README Sync | `04-readme-sync` | `docforge-overseer` |
+| 6. Doc Continuity Check | `05-doc-continuity-check` | `docforge-overseer` |
+
+### Output Artifacts
+
+- `API_REFERENCE.md` — generated API documentation
+- `ARCHITECTURE_DIAGRAMS.md` — system diagrams
+- Updated inline docstrings across the codebase
+- `README_SYNC_REPORT.md`
+
+---
+
+## Pipeline Tier 10: ShipForge — Deployment Factory
+
+Generates Dockerfiles, CI pipelines, deployment configs, and environment parity checks.
+
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|---------|----------------------|------|
+| Skill (phase) | `SkillManager` → `SKILL.md` | `systems/shipforge/skills/NN-*/SKILL.md` |
+| Overseer | `AgentManager` → TOML + prompt | `systems/shipforge/agents/shipforge-overseer.toml` |
+| Builder | Subagent via `task()` | `systems/shipforge/agents/shipforge-builder.toml` |
+| Deployer | Subagent via `task()` | `systems/shipforge/agents/shipforge-deployer.toml` |
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a systems/shipforge/skills/* ~/.vibe/skills/
+cp -a systems/shipforge/agents/* ~/.vibe/agents/
+cp -a systems/shipforge/prompts/* ~/.vibe/prompts/
+```
+
+### Phases
+
+| Phase | Skill | Agent |
+|-------|-------|--------|
+| 1. Spec Deployment Survey | `00-spec-deployment-survey` | `shipforge-overseer` |
+| 2. Dockerfile Generation | `01-dockerfile-generation` | `shipforge-builder` |
+| 3. CI Pipeline Generation | `02-ci-pipeline-generation` | `shipforge-builder` |
+| 4. Deployment Config Gen | `03-deployment-config-generation` | `shipforge-builder` |
+| 5. Environment Parity Check | `04-environment-parity-check` | `shipforge-deployer` |
+| 6. Security Hardening Check | `05-security-hardening-check` | `shipforge-deployer` |
+| 7. Deployment Checklist | `06-deployment-checklist-generation` | `shipforge-overseer` |
+
+### Output Artifacts
+
+- `Dockerfile`, `docker-compose.yml` — container definitions
+- `.github/workflows/ci.yml` — CI pipeline
+- `deploy/`, `k8s/` — deployment configs
+- `DEPLOYMENT_CHECKLIST.md`
+
+---
+
+## Pipeline Tier 11: TestForge — Test Generation Factory
+
+Generates unit, integration, kill, and fuzz tests from spec scenarios.
+
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|---------|----------------------|------|
+| Skill (phase) | `SkillManager` → `SKILL.md` | `systems/testforge/skills/NN-*/SKILL.md` |
+| Overseer | `AgentManager` → TOML + prompt | `systems/testforge/agents/testforge-overseer.toml` |
+| Generator | Subagent via `task()` | `systems/testforge/agents/testforge-generator.toml` |
+| Coverage | Subagent via `task()` | `systems/testforge/agents/testforge-coverage.toml` |
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/skills ~/.vibe/agents ~/.vibe/prompts
+cp -a systems/testforge/skills/* ~/.vibe/skills/
+cp -a systems/testforge/agents/* ~/.vibe/agents/
+cp -a systems/testforge/prompts/* ~/.vibe/prompts/
+```
+
+### Phases
+
+| Phase | Skill | Agent |
+|-------|-------|--------|
+| 1. Spec Scenario Ingest | `00-spec-scenario-ingest` | `testforge-overseer` |
+| 2. Test Strategy Planning | `01-test-strategy-planning` | `testforge-overseer` |
+| 3. Unit Test Generation | `02-unit-test-generation` | `testforge-generator` |
+| 4. Integration Test Generation | `04-integration-test-generation` | `testforge-generator` |
+| 5. Kill Test Generation | `03-kill-test-generation` | `testforge-generator` |
+| 6. Fuzz Target Generation | `05-fuzz-target-generation` | `testforge-generator` |
+| 7. Coverage Validation | `06-coverage-validation` | `testforge-coverage` |
+
+### Output Artifacts
+
+- `tests/unit/` — unit test suites
+- `tests/integration/` — integration tests
+- `tests/kill/` — kill test scenarios
+- `COVERAGE_REPORT.md`
+
+---
+
+## Pipeline Tier 12: ReactiveForge — Reactive Middleware
+
+Runtime middleware layer that reacts to events in the agent loop. Uses the adapter pattern from `systems/core/adapters/`.
+
+### Concept
+
+Intercepts tool calls, commands, and messages in real-time. Provides reactive gating, automatic drift correction, and state injection without forking Vibe.
+
+### How It Maps to Mistral-Vibe
+
+| Concept | Mistral-Vibe Component | File |
+|---------|----------------------|------|
+| Adapter | `MiddlewarePipeline` → adapter classes | `systems/core/adapters/` |
+| Tracing | `Middleware` → `TracingMiddleware` | `systems/core/middleware/tracing.py` |
+| Drift detection | `Middleware` → `DriftMiddleware` | `systems/core/middleware/drift.py` |
+| Gating | `Middleware` → `GatingMiddleware` | `systems/core/middleware/gating.py` |
+| State injection | `Middleware` → `StateInjectionMiddleware` | `systems/core/middleware/state_injection.py` |
+
+### Install
+
+```bash
+mkdir -p ~/.vibe/systems/core/adapters ~/.vibe/systems/core/middleware
+cp -a systems/core/adapters/* ~/.vibe/systems/core/adapters/
+cp -a systems/core/middleware/* ~/.vibe/systems/core/middleware/
+```
+
+### Usage
+
+```python
+from systems.core.adapters import install_control_plane
+
+agent_loop = install_control_plane(
+    agent_loop=base_agent_loop,
+    middleware=my_middleware_pipeline,
+    context=my_forge_context,
+)
+```
+
+### What This Gives You
+
+- Reactive interception of all tool calls, commands, file ops
+- Middleware pipeline with tracing, drift, gating, verification, state injection
+- Pluggable architecture — add/remove middleware without touching Vibe core
+- Portable control-plane layer that proves the pattern outside Vibe
+
+---
+
 
 ## Runtime Adapter Pattern (Control-Plane Integration)
 
