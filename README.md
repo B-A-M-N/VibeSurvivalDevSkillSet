@@ -1,7 +1,7 @@
 # Vibe Survival Dev Skill Set
 
 A practical survival kit for understanding, extending, and actually using Mistral Vibe as a moddable coding-agent runtime.
-
+!!DISCLAIMER: THE CONCEPTS HERE ARE BOTH ARCHITECTURALLY AND IMPLEMENTATION WISE, WRONG. THIS EXISTS SOLELY AS A CONCEPTUAL REPRESENTATION OF HOW THIS *COULD* WORK. THESE WILL ALL EVENTUALLY BE MADE AND IMPLEMENTED INTO FULL WORKING MISTRAL-VIBE WORKFLOWS AND DOCUMENTED: https://github.com/BAMN-LABs!!
 [![GitHub stars](https://img.shields.io/github/stars/B-A-M-N/VibeSurvivalDevSkillSet?style=flat-square)](https://github.com/B-A-M-N/VibeSurvivalDevSkillSet)
 [![License](https://img.shields.io/github/license/B-A-M-N/VibeSurvivalDevSkillSet?style=flat-square)](LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/B-A-M-N/VibeSurvivalDevSkillSet?style=flat-square)](https://github.com/B-A-M-N/VibeSurvivalDevSkillSet/commits/main)
